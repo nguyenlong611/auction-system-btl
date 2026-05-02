@@ -1,0 +1,1317 @@
+/* ================================================================
+   Adjuge — JavaFX CSS Stylesheet
+   Fonts loaded programmatically in BidVaultApp.java
+   ================================================================ */
+
+/* ----------------------------------------------------------------
+   ROOT & COLOR VARIABLES (looked-up colors)
+   ---------------------------------------------------------------- */
+.root-pane {
+    -fx-background-color: #0d1b2a;
+    -fx-font-family: "Inter", "Segoe UI", system-ui, sans-serif;
+    -fx-font-size: 18.4px;
+
+    /* Looked-up colors for reuse */
+    -gold: #c9a84c;
+    -gold-light: #e8c96d;
+    -gold-dark: #9a7c30;
+    -navy: #0d1b2a;
+    -navy-light: #1a2d42;
+    -navy-mid: #243b55;
+    -surface: #162032;
+    -surface2: #1e2d42;
+    -surface3: #253650;
+    -text-color: #f0f4f8;
+    -text-muted: #8fa8c0;
+    -text-dim: #5a7a95;
+    -border-color: #2a3f58;
+    -border-light: #334d6a;
+    -success: #10b981;
+    -error: #ef4444;
+    -warning: #f59e0b;
+}
+
+/* ----------------------------------------------------------------
+   SCROLLPANE (transparent chrome)
+   ---------------------------------------------------------------- */
+.view-scroll {
+    -fx-background-color: transparent;
+    -fx-background: transparent;
+    -fx-border-color: transparent;
+    -fx-padding: 0;
+}
+.view-scroll > .viewport {
+    -fx-background-color: transparent;
+}
+.view-scroll .scroll-bar:vertical {
+    -fx-background-color: transparent;
+    -fx-pref-width: 8px;
+}
+.view-scroll .scroll-bar:vertical .track {
+    -fx-background-color: transparent;
+}
+.view-scroll .scroll-bar:vertical .thumb {
+    -fx-background-color: #334d6a;
+    -fx-background-radius: 4;
+}
+.view-scroll .scroll-bar:vertical .thumb:hover {
+    -fx-background-color: #4a6a8a;
+}
+.view-scroll .scroll-bar:horizontal {
+    -fx-pref-height: 0;
+    -fx-opacity: 0;
+}
+.view-scroll .scroll-bar .increment-button,
+.view-scroll .scroll-bar .decrement-button {
+    -fx-pref-height: 0;
+    -fx-pref-width: 0;
+    -fx-opacity: 0;
+}
+.view-scroll .scroll-bar .increment-arrow,
+.view-scroll .scroll-bar .decrement-arrow {
+    -fx-pref-height: 0;
+    -fx-pref-width: 0;
+    -fx-padding: 0;
+    -fx-shape: "";
+}
+
+/* ----------------------------------------------------------------
+   HEADER
+   ---------------------------------------------------------------- */
+.header {
+    -fx-background-color: rgba(13, 27, 42, 0.96);
+    -fx-border-color: transparent transparent #2a3f58 transparent;
+    -fx-border-width: 0 0 1 0;
+}
+
+/* Logo */
+.logo-group {
+    -fx-cursor: hand;
+}
+.logo-gold {
+    -fx-text-fill: #c9a84c;
+    -fx-font-family: "Playfair Display", "Georgia", serif;
+    -fx-font-size: 29.4px;
+    -fx-font-weight: 700;
+}
+.logo-white {
+    -fx-text-fill: #f0f4f8;
+    -fx-font-family: "Playfair Display", "Georgia", serif;
+    -fx-font-size: 29.4px;
+    -fx-font-weight: 700;
+}
+
+/* Search */
+.search-bar {
+    -fx-background-color: transparent;
+}
+.search-icon {
+    -fx-font-size: 15.6px;
+    -fx-text-fill: #5a7a95;
+}
+.search-input {
+    -fx-background-color: #162032;
+    -fx-border-color: #2a3f58;
+    -fx-border-width: 1;
+    -fx-border-radius: 50;
+    -fx-background-radius: 50;
+    -fx-padding: 7.2 16 7.2 42;
+    -fx-text-fill: #f0f4f8;
+    -fx-font-size: 16.1px;
+    -fx-prompt-text-fill: #5a7a95;
+}
+.search-input:focused {
+    -fx-border-color: #c9a84c;
+}
+
+/* Nav Links */
+.nav-link {
+    -fx-background-color: transparent;
+    -fx-text-fill: #8fa8c0;
+    -fx-font-size: 16.1px;
+    -fx-font-weight: 500;
+    -fx-padding: 6.4 12.8;
+    -fx-background-radius: 8;
+    -fx-border-color: transparent;
+    -fx-cursor: hand;
+}
+.nav-link:hover {
+    -fx-text-fill: #f0f4f8;
+}
+.nav-username {
+    -fx-text-fill: #c9a84c;
+    -fx-font-size: 16.1px;
+    -fx-font-weight: 600;
+    -fx-padding: 6 12;
+}
+
+/* ----------------------------------------------------------------
+   BUTTONS
+   ---------------------------------------------------------------- */
+.btn-primary {
+    -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #c9a84c, #9a7c30);
+    -fx-text-fill: #0d1b2a;
+    -fx-font-size: 16.1px;
+    -fx-font-weight: 700;
+    -fx-padding: 8 19.2;
+    -fx-background-radius: 8;
+    -fx-border-color: transparent;
+    -fx-cursor: hand;
+}
+.btn-primary:hover {
+    -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #e8c96d, #c9a84c);
+    -fx-effect: dropshadow(gaussian, rgba(201, 168, 76, 0.35), 15, 0, 0, 4);
+}
+
+.btn-primary-lg {
+    -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #c9a84c, #9a7c30);
+    -fx-text-fill: #0d1b2a;
+    -fx-font-size: 18.4px;
+    -fx-font-weight: 700;
+    -fx-padding: 12 32;
+    -fx-background-radius: 8;
+    -fx-border-color: transparent;
+    -fx-cursor: hand;
+}
+.btn-primary-lg:hover {
+    -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #e8c96d, #c9a84c);
+    -fx-effect: dropshadow(gaussian, rgba(201, 168, 76, 0.35), 15, 0, 0, 4);
+}
+
+.btn-primary-lg-full {
+    -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #c9a84c, #9a7c30);
+    -fx-text-fill: #0d1b2a;
+    -fx-font-size: 18.4px;
+    -fx-font-weight: 700;
+    -fx-padding: 12 32;
+    -fx-background-radius: 8;
+    -fx-border-color: transparent;
+    -fx-cursor: hand;
+}
+.btn-primary-lg-full:hover {
+    -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #e8c96d, #c9a84c);
+    -fx-effect: dropshadow(gaussian, rgba(201, 168, 76, 0.35), 15, 0, 0, 4);
+}
+
+.btn-outline-lg {
+    -fx-background-color: transparent;
+    -fx-text-fill: #c9a84c;
+    -fx-font-size: 18.4px;
+    -fx-font-weight: 700;
+    -fx-padding: 11 31;
+    -fx-background-radius: 8;
+    -fx-border-color: #c9a84c;
+    -fx-border-radius: 8;
+    -fx-border-width: 1;
+    -fx-cursor: hand;
+}
+.btn-outline-lg:hover {
+    -fx-background-color: rgba(201, 168, 76, 0.1);
+}
+
+.btn-ghost {
+    -fx-background-color: #1e2d42;
+    -fx-text-fill: #f0f4f8;
+    -fx-border-color: #2a3f58;
+    -fx-border-width: 1;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-font-size: 16.1px;
+    -fx-font-weight: 600;
+    -fx-padding: 8 19.2;
+    -fx-cursor: hand;
+}
+.btn-ghost:hover {
+    -fx-background-color: #253650;
+}
+
+.btn-ghost-sm {
+    -fx-background-color: #1e2d42;
+    -fx-text-fill: #f0f4f8;
+    -fx-border-color: #2a3f58;
+    -fx-border-width: 1;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-font-size: 14.4px;
+    -fx-font-weight: 600;
+    -fx-padding: 4.8 12;
+    -fx-cursor: hand;
+}
+.btn-ghost-sm:hover {
+    -fx-background-color: #253650;
+}
+
+/* ----------------------------------------------------------------
+   HERO SECTION
+   ---------------------------------------------------------------- */
+.hero {
+    -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #0d1b2a 0%, #243b55 100%);
+}
+
+.hero-badge {
+    -fx-background-color: rgba(201, 168, 76, 0.1);
+    -fx-border-color: rgba(201, 168, 76, 0.3);
+    -fx-border-width: 1;
+    -fx-border-radius: 50;
+    -fx-background-radius: 50;
+    -fx-text-fill: #c9a84c;
+    -fx-padding: 4.8 16;
+    -fx-font-size: 13.8px;
+    -fx-font-weight: 600;
+}
+
+.hero-title-flow {
+    -fx-padding: 0;
+}
+.hero-title-text {
+    -fx-fill: #f0f4f8;
+    -fx-font-family: "Playfair Display", "Georgia", serif;
+    -fx-font-size: 64.4px;
+    -fx-font-weight: 700;
+}
+.hero-title-em {
+    -fx-fill: #c9a84c;
+    -fx-font-family: "Playfair Display", "Georgia", serif;
+    -fx-font-size: 64.4px;
+    -fx-font-weight: 700;
+    -fx-font-style: italic;
+}
+
+.hero-subtitle {
+    -fx-text-fill: #8fa8c0;
+    -fx-font-size: 20.2px;
+    -fx-line-spacing: 8;
+}
+
+.hero-stats {
+    -fx-border-color: #2a3f58 transparent transparent transparent;
+    -fx-border-width: 1 0 0 0;
+}
+
+.stat-value {
+    -fx-font-family: "Playfair Display", "Georgia", serif;
+    -fx-font-size: 36.8px;
+    -fx-font-weight: 700;
+    -fx-text-fill: #c9a84c;
+}
+
+.stat-label {
+    -fx-text-fill: #8fa8c0;
+    -fx-font-size: 15.1px;
+}
+
+/* ----------------------------------------------------------------
+   FILTER BAR
+   ---------------------------------------------------------------- */
+.filter-chip {
+    -fx-background-color: #162032;
+    -fx-border-color: #2a3f58;
+    -fx-border-width: 1;
+    -fx-border-radius: 50;
+    -fx-background-radius: 50;
+    -fx-text-fill: #8fa8c0;
+    -fx-font-size: 15.1px;
+    -fx-padding: 6.4 16;
+    -fx-cursor: hand;
+}
+.filter-chip:hover {
+    -fx-border-color: #c9a84c;
+    -fx-text-fill: #c9a84c;
+    -fx-background-color: rgba(201, 168, 76, 0.08);
+}
+
+.filter-chip-active {
+    -fx-background-color: rgba(201, 168, 76, 0.08);
+    -fx-border-color: #c9a84c;
+    -fx-border-width: 1;
+    -fx-border-radius: 50;
+    -fx-background-radius: 50;
+    -fx-text-fill: #c9a84c;
+    -fx-font-size: 15.1px;
+    -fx-padding: 6.4 16;
+    -fx-cursor: hand;
+}
+
+/* ----------------------------------------------------------------
+   SECTION
+   ---------------------------------------------------------------- */
+.section-title {
+    -fx-font-family: "Playfair Display", "Georgia", serif;
+    -fx-font-size: 27.6px;
+    -fx-font-weight: 700;
+    -fx-text-fill: #f0f4f8;
+}
+
+.results-count {
+    -fx-text-fill: #8fa8c0;
+    -fx-font-size: 15.1px;
+}
+
+/* ----------------------------------------------------------------
+   AUCTION CARDS
+   ---------------------------------------------------------------- */
+.auction-card {
+    -fx-background-color: #162032;
+    -fx-border-color: #2a3f58;
+    -fx-border-width: 1;
+    -fx-border-radius: 16;
+    -fx-background-radius: 16;
+    -fx-cursor: hand;
+}
+.auction-card:hover {
+    -fx-border-color: #9a7c30;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 40, 0, 0, 15);
+}
+
+.card-image {
+    -fx-background-color: #1e2d42;
+    -fx-background-radius: 16 16 0 0;
+}
+
+.card-badge {
+    -fx-background-color: rgba(13, 27, 42, 0.9);
+    -fx-border-color: #2a3f58;
+    -fx-border-width: 1;
+    -fx-border-radius: 50;
+    -fx-background-radius: 50;
+    -fx-text-fill: #8fa8c0;
+    -fx-padding: 3.2 9.6;
+    -fx-font-size: 13.2px;
+    -fx-font-weight: 500;
+}
+
+.card-timer {
+    -fx-background-color: rgba(13, 27, 42, 0.9);
+    -fx-border-color: rgba(239, 68, 68, 0.4);
+    -fx-border-width: 1;
+    -fx-border-radius: 50;
+    -fx-background-radius: 50;
+    -fx-text-fill: #fca5a5;
+    -fx-padding: 3.2 9.6;
+    -fx-font-size: 13.2px;
+    -fx-font-weight: 600;
+}
+
+.card-timer-urgent {
+    -fx-background-color: rgba(13, 27, 42, 0.9);
+    -fx-border-color: rgba(239, 68, 68, 0.7);
+    -fx-border-width: 1;
+    -fx-border-radius: 50;
+    -fx-background-radius: 50;
+    -fx-text-fill: #ef4444;
+    -fx-padding: 3.2 9.6;
+    -fx-font-size: 13.2px;
+    -fx-font-weight: 600;
+}
+
+.card-body {
+    -fx-background-color: transparent;
+}
+
+.card-category {
+    -fx-text-fill: #c9a84c;
+    -fx-font-size: 13.2px;
+    -fx-font-weight: 600;
+}
+
+.card-title {
+    -fx-font-family: "Playfair Display", "Georgia", serif;
+    -fx-font-size: 20.2px;
+    -fx-font-weight: 600;
+    -fx-text-fill: #f0f4f8;
+    -fx-padding: 5.6 0 6.4 0;
+}
+
+.card-description {
+    -fx-text-fill: #8fa8c0;
+    -fx-font-size: 14.7px;
+    -fx-line-spacing: 4;
+}
+
+.card-footer {
+    -fx-border-color: #2a3f58 transparent transparent transparent;
+    -fx-border-width: 1 0 0 0;
+}
+
+.bid-label {
+    -fx-text-fill: #5a7a95;
+    -fx-font-size: 12.5px;
+    -fx-font-weight: 600;
+}
+
+.bid-amount {
+    -fx-font-family: "Playfair Display", "Georgia", serif;
+    -fx-font-size: 23.9px;
+    -fx-font-weight: 700;
+    -fx-text-fill: #c9a84c;
+}
+
+.bid-count {
+    -fx-text-fill: #8fa8c0;
+    -fx-font-size: 14.4px;
+}
+
+/* ----------------------------------------------------------------
+   TEXT UTILITIES
+   ---------------------------------------------------------------- */
+.text-muted {
+    -fx-text-fill: #8fa8c0;
+}
+
+.text-gold {
+    -fx-text-fill: #c9a84c;
+}
+
+/* ----------------------------------------------------------------
+   AUTH VIEW
+   ---------------------------------------------------------------- */
+.auth-container {
+    -fx-background-color: #0d1b2a;
+}
+
+.auth-card {
+    -fx-background-color: #162032;
+    -fx-border-color: #2a3f58;
+    -fx-border-width: 1;
+    -fx-border-radius: 16;
+    -fx-background-radius: 16;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 40, 0, 0, 10);
+}
+
+.auth-logo-text {
+    -fx-font-family: "Playfair Display", "Georgia", serif;
+    -fx-font-size: 36.8px;
+    -fx-font-weight: 700;
+    -fx-text-fill: #c9a84c;
+}
+
+.auth-tagline {
+    -fx-text-fill: #8fa8c0;
+    -fx-font-size: 15.1px;
+}
+
+.auth-tabs-bar {
+    -fx-border-color: transparent transparent #2a3f58 transparent;
+    -fx-border-width: 0 0 1 0;
+}
+
+.auth-tab {
+    -fx-background-color: transparent;
+    -fx-text-fill: #8fa8c0;
+    -fx-font-size: 16.1px;
+    -fx-font-weight: 500;
+    -fx-padding: 12 0;
+    -fx-border-color: transparent transparent transparent transparent;
+    -fx-border-width: 0 0 2 0;
+    -fx-cursor: hand;
+    -fx-background-radius: 0;
+}
+.auth-tab:hover {
+    -fx-text-fill: #c9a84c;
+}
+
+.auth-tab-active {
+    -fx-background-color: transparent;
+    -fx-text-fill: #c9a84c;
+    -fx-font-size: 16.1px;
+    -fx-font-weight: 500;
+    -fx-padding: 12 0;
+    -fx-border-color: transparent transparent #c9a84c transparent;
+    -fx-border-width: 0 0 2 0;
+    -fx-cursor: hand;
+    -fx-background-radius: 0;
+}
+
+/* ----------------------------------------------------------------
+   FORM ELEMENTS
+   ---------------------------------------------------------------- */
+.form-label {
+    -fx-text-fill: #8fa8c0;
+    -fx-font-size: 15.1px;
+    -fx-font-weight: 500;
+}
+
+.form-label-muted {
+    -fx-text-fill: #8fa8c0;
+    -fx-font-size: 15.1px;
+    -fx-font-weight: 400;
+}
+
+.form-input {
+    -fx-background-color: #1e2d42;
+    -fx-border-color: #2a3f58;
+    -fx-border-width: 1;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-padding: 10.4 16;
+    -fx-text-fill: #f0f4f8;
+    -fx-font-size: 16.1px;
+    -fx-prompt-text-fill: #5a7a95;
+}
+.form-input:focused {
+    -fx-border-color: #c9a84c;
+}
+
+.form-textarea {
+    -fx-control-inner-background: #1e2d42;
+    -fx-background-color: #1e2d42;
+    -fx-border-color: #2a3f58;
+    -fx-border-width: 1;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-padding: 10.4 16;
+    -fx-text-fill: #f0f4f8;
+    -fx-font-size: 16.1px;
+    -fx-prompt-text-fill: #5a7a95;
+}
+.form-textarea:focused {
+    -fx-border-color: #c9a84c;
+}
+.form-textarea .content {
+    -fx-background-color: #1e2d42;
+}
+
+.form-select {
+    -fx-background-color: #1e2d42;
+    -fx-border-color: #2a3f58;
+    -fx-border-width: 1;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-padding: 6.4 12;
+    -fx-font-size: 16.1px;
+    -fx-mark-color: #8fa8c0;
+}
+.form-select .list-cell {
+    -fx-text-fill: #f0f4f8;
+    -fx-background-color: transparent;
+    -fx-font-size: 16.1px;
+}
+.form-select .combo-box-popup .list-view {
+    -fx-background-color: #1e2d42;
+    -fx-border-color: #2a3f58;
+    -fx-border-width: 1;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+}
+.form-select .combo-box-popup .list-cell {
+    -fx-text-fill: #f0f4f8;
+    -fx-background-color: #1e2d42;
+    -fx-padding: 8 12;
+}
+.form-select .combo-box-popup .list-cell:hover {
+    -fx-background-color: #253650;
+}
+.form-select .combo-box-popup .list-cell:filled:selected {
+    -fx-background-color: rgba(201, 168, 76, 0.15);
+    -fx-text-fill: #c9a84c;
+}
+.form-select:focused {
+    -fx-border-color: #c9a84c;
+}
+.form-select .arrow-button {
+    -fx-background-color: transparent;
+}
+.form-select .arrow {
+    -fx-background-color: #8fa8c0;
+}
+
+.field-error {
+    -fx-text-fill: #ef4444;
+    -fx-font-size: 13.8px;
+}
+
+.form-footer-text {
+    -fx-text-fill: #8fa8c0;
+    -fx-font-size: 15.1px;
+}
+
+.form-link {
+    -fx-text-fill: #c9a84c;
+    -fx-font-size: 15.1px;
+    -fx-padding: 0;
+    -fx-border-color: transparent;
+}
+.form-link:hover {
+    -fx-text-fill: #e8c96d;
+}
+
+.demo-hint {
+    -fx-text-fill: #5a7a95;
+    -fx-font-size: 13.8px;
+    -fx-background-color: #1e2d42;
+    -fx-background-radius: 8;
+    -fx-padding: 8;
+    -fx-alignment: center;
+}
+
+/* ----------------------------------------------------------------
+   AUCTION DETAIL VIEW
+   ---------------------------------------------------------------- */
+.back-btn {
+    -fx-background-color: transparent;
+    -fx-text-fill: #8fa8c0;
+    -fx-font-size: 16.1px;
+    -fx-padding: 0;
+    -fx-border-color: transparent;
+    -fx-cursor: hand;
+}
+.back-btn:hover {
+    -fx-text-fill: #c9a84c;
+}
+
+.auction-image-main {
+    -fx-background-color: #1e2d42;
+    -fx-background-radius: 16;
+}
+
+.meta-tag {
+    -fx-background-color: #1e2d42;
+    -fx-border-color: #2a3f58;
+    -fx-border-width: 1;
+    -fx-border-radius: 50;
+    -fx-background-radius: 50;
+    -fx-text-fill: #8fa8c0;
+    -fx-padding: 4 12;
+    -fx-font-size: 14.4px;
+}
+
+.meta-tag-gold {
+    -fx-background-color: rgba(201, 168, 76, 0.1);
+    -fx-border-color: rgba(201, 168, 76, 0.3);
+    -fx-border-width: 1;
+    -fx-border-radius: 50;
+    -fx-background-radius: 50;
+    -fx-text-fill: #c9a84c;
+    -fx-padding: 4 12;
+    -fx-font-size: 14.4px;
+}
+
+.detail-title {
+    -fx-font-family: "Playfair Display", "Georgia", serif;
+    -fx-font-size: 36.8px;
+    -fx-font-weight: 700;
+    -fx-text-fill: #f0f4f8;
+}
+
+.detail-description {
+    -fx-text-fill: #8fa8c0;
+    -fx-font-size: 16.1px;
+    -fx-line-spacing: 8;
+}
+
+.bid-history-title {
+    -fx-font-family: "Playfair Display", "Georgia", serif;
+    -fx-font-size: 21.2px;
+    -fx-font-weight: 600;
+    -fx-text-fill: #f0f4f8;
+}
+
+.bid-history-count {
+    -fx-text-fill: #8fa8c0;
+    -fx-font-size: 15.1px;
+}
+
+.bid-entry {
+    -fx-background-color: #1e2d42;
+    -fx-background-radius: 8;
+}
+
+.bid-entry-top {
+    -fx-background-color: rgba(201, 168, 76, 0.08);
+    -fx-border-color: rgba(201, 168, 76, 0.2);
+    -fx-border-width: 1;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+}
+
+.bid-entry-user {
+    -fx-text-fill: #f0f4f8;
+    -fx-font-size: 15.1px;
+    -fx-font-weight: 600;
+}
+
+.bid-entry-time {
+    -fx-text-fill: #5a7a95;
+    -fx-font-size: 13.2px;
+}
+
+.bid-entry-amount {
+    -fx-text-fill: #c9a84c;
+    -fx-font-size: 15.1px;
+    -fx-font-weight: 700;
+}
+
+/* Auction Info Card (right sidebar) */
+.auction-info-card {
+    -fx-background-color: #162032;
+    -fx-border-color: #2a3f58;
+    -fx-border-width: 1;
+    -fx-border-radius: 16;
+    -fx-background-radius: 16;
+}
+
+.current-bid-display {
+    -fx-border-color: transparent transparent #2a3f58 transparent;
+    -fx-border-width: 0 0 1 0;
+}
+
+.current-bid-label {
+    -fx-text-fill: #8fa8c0;
+    -fx-font-size: 14.4px;
+    -fx-font-weight: 600;
+}
+
+.current-bid-amount {
+    -fx-font-family: "Playfair Display", "Georgia", serif;
+    -fx-font-size: 44.2px;
+    -fx-font-weight: 700;
+    -fx-text-fill: #c9a84c;
+    -fx-padding: 3.2 0;
+}
+
+.bid-count-info {
+    -fx-text-fill: #8fa8c0;
+    -fx-font-size: 15.1px;
+}
+
+.time-remaining-label {
+    -fx-text-fill: #8fa8c0;
+    -fx-font-size: 13.2px;
+    -fx-font-weight: 600;
+}
+
+.countdown-unit {
+    -fx-background-color: #1e2d42;
+    -fx-border-color: #2a3f58;
+    -fx-border-width: 1;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+}
+
+.countdown-value {
+    -fx-font-family: "Playfair Display", "Georgia", serif;
+    -fx-font-size: 25.8px;
+    -fx-font-weight: 700;
+    -fx-text-fill: #f0f4f8;
+}
+
+.countdown-label {
+    -fx-text-fill: #5a7a95;
+    -fx-font-size: 11px;
+    -fx-font-weight: 600;
+}
+
+.bid-input {
+    -fx-background-color: #1e2d42;
+    -fx-border-color: #2a3f58;
+    -fx-border-width: 1;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-padding: 11.2 16;
+    -fx-text-fill: #f0f4f8;
+    -fx-font-size: 18.4px;
+    -fx-font-weight: 600;
+    -fx-prompt-text-fill: #5a7a95;
+}
+.bid-input:focused {
+    -fx-border-color: #c9a84c;
+}
+
+.bid-hint {
+    -fx-text-fill: #8fa8c0;
+    -fx-font-size: 14.4px;
+}
+
+/* Seller Info */
+.seller-info {
+    -fx-border-color: #2a3f58 transparent transparent transparent;
+    -fx-border-width: 1 0 0 0;
+}
+
+.seller-avatar {
+    -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #9a7c30, #243b55);
+    -fx-background-radius: 50;
+}
+
+.seller-avatar-text {
+    -fx-text-fill: #e8c96d;
+    -fx-font-size: 15.6px;
+    -fx-font-weight: 700;
+}
+
+.seller-name {
+    -fx-text-fill: #f0f4f8;
+    -fx-font-size: 16.1px;
+    -fx-font-weight: 600;
+}
+
+.seller-label {
+    -fx-text-fill: #8fa8c0;
+    -fx-font-size: 13.8px;
+}
+
+.detail-info-label {
+    -fx-text-fill: #8fa8c0;
+    -fx-font-size: 15.1px;
+}
+
+.detail-info-value {
+    -fx-text-fill: #f0f4f8;
+    -fx-font-size: 15.1px;
+}
+
+/* ----------------------------------------------------------------
+   DIVIDER
+   ---------------------------------------------------------------- */
+.divider {
+    -fx-background-color: #2a3f58;
+    -fx-pref-height: 1;
+    -fx-min-height: 1;
+    -fx-max-height: 1;
+}
+
+/* ----------------------------------------------------------------
+   DASHBOARD VIEW
+   ---------------------------------------------------------------- */
+.dashboard-greeting {
+    -fx-font-family: "Playfair Display", "Georgia", serif;
+    -fx-font-size: 32.2px;
+    -fx-font-weight: 700;
+    -fx-text-fill: #f0f4f8;
+}
+
+.dashboard-subtitle {
+    -fx-text-fill: #8fa8c0;
+    -fx-font-size: 16.1px;
+}
+
+.stat-card {
+    -fx-background-color: #162032;
+    -fx-border-color: #2a3f58;
+    -fx-border-width: 1;
+    -fx-border-radius: 16;
+    -fx-background-radius: 16;
+}
+
+.stat-card-label {
+    -fx-text-fill: #8fa8c0;
+    -fx-font-size: 13.2px;
+    -fx-font-weight: 600;
+    -fx-padding: 0 0 8 0;
+}
+
+.stat-card-value {
+    -fx-font-family: "Playfair Display", "Georgia", serif;
+    -fx-font-size: 32.2px;
+    -fx-font-weight: 700;
+    -fx-text-fill: #c9a84c;
+}
+
+.stat-card-value-gold {
+    -fx-font-family: "Playfair Display", "Georgia", serif;
+    -fx-font-size: 32.2px;
+    -fx-font-weight: 700;
+    -fx-text-fill: #4ade80;
+}
+
+/* ----------------------------------------------------------------
+   DASHBOARD — PROFILE CARD
+   ---------------------------------------------------------------- */
+.profile-card {
+    -fx-background-color: #162032;
+    -fx-border-color: #2a3f58;
+    -fx-border-width: 1;
+    -fx-border-radius: 16;
+    -fx-background-radius: 16;
+    -fx-padding: 24;
+}
+
+.profile-avatar {
+    -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #c9a84c, #9a7c30);
+    -fx-background-radius: 50;
+    -fx-min-width: 64;
+    -fx-min-height: 64;
+    -fx-max-width: 64;
+    -fx-max-height: 64;
+}
+
+.profile-avatar-text {
+    -fx-text-fill: #0d1b2a;
+    -fx-font-size: 25.3px;
+    -fx-font-weight: 700;
+    -fx-font-family: "Inter", "Segoe UI", sans-serif;
+}
+
+.profile-name {
+    -fx-font-family: "Playfair Display", "Georgia", serif;
+    -fx-font-size: 23px;
+    -fx-font-weight: 700;
+    -fx-text-fill: #f0e6d3;
+}
+
+.profile-email {
+    -fx-text-fill: #8fa8c0;
+    -fx-font-size: 14.9px;
+}
+
+.profile-meta {
+    -fx-text-fill: #5a7a95;
+    -fx-font-size: 13.8px;
+}
+
+.profile-poly-info {
+    -fx-text-fill: #8fa8c0;
+    -fx-font-size: 14.4px;
+    -fx-background-color: rgba(255,255,255,0.03);
+    -fx-border-color: #2a3f58;
+    -fx-border-width: 1;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-padding: 10 14;
+}
+
+.verified-badge {
+    -fx-background-color: rgba(74, 222, 128, 0.12);
+    -fx-border-color: rgba(74, 222, 128, 0.35);
+    -fx-border-width: 1;
+    -fx-border-radius: 4;
+    -fx-background-radius: 4;
+    -fx-text-fill: #4ade80;
+    -fx-font-size: 12.1px;
+    -fx-font-weight: 700;
+    -fx-padding: 3 8;
+}
+
+.role-badge {
+    -fx-background-color: rgba(201, 168, 76, 0.12);
+    -fx-border-color: rgba(201, 168, 76, 0.35);
+    -fx-border-width: 1;
+    -fx-border-radius: 4;
+    -fx-background-radius: 4;
+    -fx-text-fill: #c9a84c;
+    -fx-font-size: 12.1px;
+    -fx-font-weight: 700;
+    -fx-padding: 3 8;
+}
+
+/* ----------------------------------------------------------------
+   DASHBOARD — ACTIVITY SECTIONS
+   ---------------------------------------------------------------- */
+.dash-section-card {
+    -fx-background-color: #162032;
+    -fx-border-color: #2a3f58;
+    -fx-border-width: 1;
+    -fx-border-radius: 16;
+    -fx-background-radius: 16;
+    -fx-padding: 20;
+}
+
+.dash-section-title {
+    -fx-font-family: "Playfair Display", "Georgia", serif;
+    -fx-font-size: 17.2px;
+    -fx-font-weight: 700;
+    -fx-text-fill: #f0e6d3;
+    -fx-padding: 0 0 8 0;
+    -fx-border-color: transparent transparent #2a3f58 transparent;
+    -fx-border-width: 0 0 1 0;
+}
+
+.dash-empty-state {
+    -fx-text-fill: #4a6080;
+    -fx-font-size: 14.9px;
+    -fx-font-style: italic;
+    -fx-padding: 12 0;
+}
+
+.bid-row {
+    -fx-background-color: rgba(255,255,255,0.025);
+    -fx-border-color: #1e3048;
+    -fx-border-width: 1;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-padding: 10 14;
+}
+
+.bid-row-title {
+    -fx-text-fill: #d4c9bb;
+    -fx-font-size: 14.9px;
+    -fx-font-weight: 600;
+}
+
+.bid-row-meta {
+    -fx-text-fill: #8fa8c0;
+    -fx-font-size: 13.8px;
+}
+
+.bid-row-current {
+    -fx-text-fill: #c9a84c;
+    -fx-font-size: 13.8px;
+    -fx-font-weight: 600;
+}
+
+.bid-row-time {
+    -fx-text-fill: #5a7a95;
+    -fx-font-size: 13.2px;
+}
+
+.status-badge {
+    -fx-font-size: 11.5px;
+    -fx-font-weight: 700;
+    -fx-padding: 2 7;
+    -fx-border-width: 1;
+    -fx-border-radius: 4;
+    -fx-background-radius: 4;
+}
+
+.status-winning {
+    -fx-text-fill: #4ade80;
+    -fx-background-color: rgba(74, 222, 128, 0.10);
+    -fx-border-color: rgba(74, 222, 128, 0.30);
+}
+
+.status-won {
+    -fx-text-fill: #c9a84c;
+    -fx-background-color: rgba(201, 168, 76, 0.12);
+    -fx-border-color: rgba(201, 168, 76, 0.35);
+}
+
+.status-outbid {
+    -fx-text-fill: #f87171;
+    -fx-background-color: rgba(248, 113, 113, 0.10);
+    -fx-border-color: rgba(248, 113, 113, 0.30);
+}
+
+.status-closed {
+    -fx-text-fill: #5a7a95;
+    -fx-background-color: rgba(90, 122, 149, 0.10);
+    -fx-border-color: rgba(90, 122, 149, 0.25);
+}
+
+.stat-card-sub {
+    -fx-text-fill: #5a7a95;
+    -fx-font-size: 13.8px;
+    -fx-padding: 3.2 0 0 0;
+}
+
+/* Dashboard Tabs */
+.dashboard-tabs {
+    -fx-border-color: transparent transparent #2a3f58 transparent;
+    -fx-border-width: 0 0 1 0;
+}
+
+.dash-tab {
+    -fx-background-color: transparent;
+    -fx-text-fill: #8fa8c0;
+    -fx-font-size: 16.1px;
+    -fx-font-weight: 500;
+    -fx-padding: 9.6 16;
+    -fx-border-color: transparent transparent transparent transparent;
+    -fx-border-width: 0 0 2 0;
+    -fx-cursor: hand;
+    -fx-background-radius: 0;
+}
+.dash-tab:hover {
+    -fx-text-fill: #c9a84c;
+}
+
+.dash-tab-active {
+    -fx-background-color: transparent;
+    -fx-text-fill: #c9a84c;
+    -fx-font-size: 16.1px;
+    -fx-font-weight: 500;
+    -fx-padding: 9.6 16;
+    -fx-border-color: transparent transparent #c9a84c transparent;
+    -fx-border-width: 0 0 2 0;
+    -fx-cursor: hand;
+    -fx-background-radius: 0;
+}
+
+/* Dashboard Table */
+.table-wrapper {
+    -fx-background-color: #162032;
+    -fx-border-color: #2a3f58;
+    -fx-border-width: 1;
+    -fx-border-radius: 16;
+    -fx-background-radius: 16;
+}
+
+.table-header {
+    -fx-background-color: #1e2d42;
+    -fx-background-radius: 16 16 0 0;
+    -fx-border-color: transparent transparent #2a3f58 transparent;
+    -fx-border-width: 0 0 1 0;
+}
+
+.th {
+    -fx-text-fill: #8fa8c0;
+    -fx-font-size: 13.2px;
+    -fx-font-weight: 600;
+    -fx-padding: 10.4 16;
+}
+
+.table-row {
+    -fx-border-color: transparent transparent #2a3f58 transparent;
+    -fx-border-width: 0 0 1 0;
+}
+.table-row:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.02);
+}
+
+.table-row-last {
+    -fx-border-color: transparent;
+}
+.table-row-last:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.02);
+}
+
+.td {
+    -fx-text-fill: #f0f4f8;
+    -fx-font-size: 15.6px;
+}
+
+.td-title {
+    -fx-text-fill: #f0f4f8;
+    -fx-font-size: 15.6px;
+    -fx-font-weight: 600;
+}
+
+.td-subtitle {
+    -fx-text-fill: #8fa8c0;
+    -fx-font-size: 13.8px;
+}
+
+.td-gold {
+    -fx-text-fill: #c9a84c;
+    -fx-font-size: 15.6px;
+    -fx-font-weight: 600;
+}
+
+.td-muted {
+    -fx-text-fill: #8fa8c0;
+    -fx-font-size: 14.7px;
+}
+
+/* Status Badges */
+.status-badge-active {
+    -fx-background-color: rgba(16, 185, 129, 0.1);
+    -fx-background-radius: 50;
+    -fx-text-fill: #10b981;
+    -fx-padding: 3.2 9.6;
+    -fx-font-size: 13.2px;
+    -fx-font-weight: 600;
+}
+
+.status-badge-winning {
+    -fx-background-color: rgba(201, 168, 76, 0.1);
+    -fx-background-radius: 50;
+    -fx-text-fill: #c9a84c;
+    -fx-padding: 3.2 9.6;
+    -fx-font-size: 13.2px;
+    -fx-font-weight: 600;
+}
+
+.status-badge-outbid {
+    -fx-background-color: rgba(239, 68, 68, 0.1);
+    -fx-background-radius: 50;
+    -fx-text-fill: #ef4444;
+    -fx-padding: 3.2 9.6;
+    -fx-font-size: 13.2px;
+    -fx-font-weight: 600;
+}
+
+.status-badge-won {
+    -fx-background-color: rgba(16, 185, 129, 0.1);
+    -fx-background-radius: 50;
+    -fx-text-fill: #10b981;
+    -fx-padding: 3.2 9.6;
+    -fx-font-size: 13.2px;
+    -fx-font-weight: 600;
+}
+
+.status-badge-ended,
+.status-badge-lost {
+    -fx-background-color: rgba(100, 116, 139, 0.1);
+    -fx-background-radius: 50;
+    -fx-text-fill: #5a7a95;
+    -fx-padding: 3.2 9.6;
+    -fx-font-size: 13.2px;
+    -fx-font-weight: 600;
+}
+
+/* ----------------------------------------------------------------
+   CREATE VIEW
+   ---------------------------------------------------------------- */
+.page-title {
+    -fx-font-family: "Playfair Display", "Georgia", serif;
+    -fx-font-size: 36.8px;
+    -fx-font-weight: 700;
+    -fx-text-fill: #f0f4f8;
+}
+
+.page-subtitle {
+    -fx-text-fill: #8fa8c0;
+    -fx-font-size: 16.1px;
+}
+
+.form-card {
+    -fx-background-color: #162032;
+    -fx-border-color: #2a3f58;
+    -fx-border-width: 1;
+    -fx-border-radius: 16;
+    -fx-background-radius: 16;
+}
+
+.form-section-title {
+    -fx-text-fill: #8fa8c0;
+    -fx-font-size: 14.4px;
+    -fx-font-weight: 600;
+    -fx-border-color: transparent transparent #2a3f58 transparent;
+    -fx-border-width: 0 0 1 0;
+    -fx-padding: 0 0 8 0;
+}
+
+.image-upload-box {
+    -fx-border-color: #2a3f58;
+    -fx-border-width: 2;
+    -fx-border-style: segments(10, 5);
+    -fx-border-radius: 8;
+    -fx-background-color: #1e2d42;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+}
+.image-upload-box:hover {
+    -fx-border-color: #c9a84c;
+}
+
+.upload-title {
+    -fx-text-fill: #f0f4f8;
+    -fx-font-size: 16.1px;
+    -fx-font-weight: 600;
+}
+
+.upload-subtitle {
+    -fx-text-fill: #8fa8c0;
+    -fx-font-size: 13.8px;
+    -fx-padding: 4 0 0 0;
+}
+
+/* ----------------------------------------------------------------
+   FOOTER
+   ---------------------------------------------------------------- */
+.footer {
+    -fx-background-color: #162032;
+    -fx-border-color: #2a3f58 transparent transparent transparent;
+    -fx-border-width: 1 0 0 0;
+}
+
+.footer-text {
+    -fx-text-fill: #8fa8c0;
+    -fx-font-size: 15.1px;
+}
+
+/* ----------------------------------------------------------------
+   HOME VIEW
+   ---------------------------------------------------------------- */
+.home-view {
+    -fx-background-color: #0d1b2a;
+}

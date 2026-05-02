@@ -1,0 +1,1022 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.geometry.Insets?>
+<?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
+
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.adjuge.controller.BiddingController"
+      stylesheets="@bidding.css" styleClass="root-pane" prefWidth="1440" prefHeight="900">
+
+  <!-- ================================================================ -->
+  <!-- HEADER                                                           -->
+  <!-- ================================================================ -->
+  <HBox styleClass="header" alignment="CENTER" minHeight="70" prefHeight="70" maxHeight="70">
+    <padding><Insets left="32" right="32"/></padding>
+    <HBox alignment="CENTER_LEFT" spacing="32" HBox.hgrow="ALWAYS">
+      <!-- Logo — click to go home -->
+      <HBox alignment="CENTER_LEFT" spacing="2" styleClass="logo-group" onMouseClicked="#onBrowse">
+        <Label text="⚡ " styleClass="logo-gold" mouseTransparent="true"/>
+        <Label text="Adjugé" styleClass="logo-gold" mouseTransparent="true"/>
+        <Label text="!" styleClass="logo-white" mouseTransparent="true"/>
+      </HBox>
+      <!-- Search Bar -->
+      <StackPane HBox.hgrow="ALWAYS" maxWidth="480" styleClass="search-bar">
+        <TextField fx:id="searchField" styleClass="search-input" promptText="Search auctions, categories…" onKeyReleased="#onSearchChanged"/>
+        <Label text="🔍" styleClass="search-icon" StackPane.alignment="CENTER_LEFT" mouseTransparent="true">
+          <padding><Insets left="14"/></padding>
+        </Label>
+      </StackPane>
+      <!-- Spacer -->
+      <Region HBox.hgrow="ALWAYS"/>
+      <!-- Nav -->
+      <HBox alignment="CENTER_RIGHT" spacing="8">
+        <Label fx:id="navUserLabel" styleClass="nav-username" visible="false" managed="false"/>
+        <Button fx:id="btnSignIn" text="Sign In" styleClass="btn-primary" onAction="#onSignIn"/>
+      </HBox>
+    </HBox>
+  </HBox>
+
+  <!-- ================================================================ -->
+  <!-- MAIN CONTENT AREA                                                -->
+  <!-- ================================================================ -->
+  <StackPane VBox.vgrow="ALWAYS">
+
+    <!-- ============================================================== -->
+    <!-- HOME VIEW (visible by default)                                 -->
+    <!-- ============================================================== -->
+    <ScrollPane fx:id="viewHome" fitToWidth="true" hbarPolicy="NEVER" styleClass="view-scroll">
+      <VBox styleClass="home-view">
+
+        <!-- HERO SECTION -->
+        <StackPane styleClass="hero">
+          <VBox alignment="CENTER" maxWidth="700">
+            <padding><Insets top="80" bottom="80" left="32" right="32"/></padding>
+
+            <!-- Badge -->
+            <Label styleClass="hero-badge" text="✦ Premium Auction Platform">
+              <VBox.margin><Insets bottom="24"/></VBox.margin>
+            </Label>
+
+            <!-- Title -->
+            <TextFlow textAlignment="CENTER" styleClass="hero-title-flow">
+              <Text text="Bid on " styleClass="hero-title-text"/>
+              <Text text="Extraordinary" styleClass="hero-title-em"/>
+              <Text text="&#10;Items &amp; Win Big" styleClass="hero-title-text"/>
+            </TextFlow>
+
+            <!-- Subtitle -->
+            <Label styleClass="hero-subtitle" wrapText="true" textAlignment="CENTER"
+                   text="Discover rare collectibles, luxury goods, and unique items.&#10;Join thousands of bidders competing for exclusive finds.">
+              <VBox.margin><Insets top="20" bottom="40"/></VBox.margin>
+            </Label>
+
+            <!-- CTA Buttons -->
+            <HBox alignment="CENTER" spacing="16">
+              <Button text="Explore Auctions" styleClass="btn-primary-lg" onAction="#onExploreAuctions"/>
+              <Button text="Start Selling" styleClass="btn-outline-lg" onAction="#onStartSelling"/>
+            </HBox>
+
+            <!-- Stats -->
+            <HBox alignment="CENTER" spacing="48" styleClass="hero-stats">
+              <VBox.margin><Insets top="64"/></VBox.margin>
+              <padding><Insets top="40"/></padding>
+              <VBox alignment="CENTER" spacing="3">
+                <Label fx:id="statAuctions" styleClass="stat-value" text="8"/>
+                <Label styleClass="stat-label" text="Active Auctions"/>
+              </VBox>
+              <VBox alignment="CENTER" spacing="3">
+                <Label fx:id="statUsers" styleClass="stat-value" text="4"/>
+                <Label styleClass="stat-label" text="Registered Users"/>
+              </VBox>
+              <VBox alignment="CENTER" spacing="3">
+                <Label fx:id="statBids" styleClass="stat-value" text="30+"/>
+                <Label styleClass="stat-label" text="Total Bids"/>
+              </VBox>
+            </HBox>
+          </VBox>
+        </StackPane>
+
+        <!-- AUCTIONS SECTION -->
+        <VBox alignment="TOP_CENTER">
+          <padding><Insets top="32" bottom="64" left="32" right="32"/></padding>
+          <VBox spacing="0">
+
+            <!-- Section Header -->
+            <HBox alignment="CENTER_LEFT">
+              <Label styleClass="section-title" text="Active Auctions"/>
+              <Region HBox.hgrow="ALWAYS"/>
+              <Label styleClass="results-count" text="8 auctions"/>
+            </HBox>
+
+            <!-- Filter Bar -->
+            <HBox spacing="8" styleClass="filter-bar">
+              <VBox.margin><Insets top="24" bottom="24"/></VBox.margin>
+              <Button text="All" styleClass="filter-chip-active" onAction="#onFilterCategory"/>
+              <Button text="Jewelry &amp; Watches" styleClass="filter-chip" onAction="#onFilterCategory"/>
+              <Button text="Musical Instruments" styleClass="filter-chip" onAction="#onFilterCategory"/>
+              <Button text="Art &amp; Collectibles" styleClass="filter-chip" onAction="#onFilterCategory"/>
+              <Button text="Electronics" styleClass="filter-chip" onAction="#onFilterCategory"/>
+              <Button text="Vehicles" styleClass="filter-chip" onAction="#onFilterCategory"/>
+              <Button text="Antiques" styleClass="filter-chip" onAction="#onFilterCategory"/>
+              <Button text="Fashion" styleClass="filter-chip" onAction="#onFilterCategory"/>
+            </HBox>
+
+            <!-- Auction Cards Grid -->
+            <TilePane fx:id="auctionGrid" hgap="24" vgap="24" prefColumns="3" alignment="TOP_LEFT" tileAlignment="TOP_LEFT">
+
+              <!-- ====== CARD 1: Rolex Submariner ====== -->
+              <VBox styleClass="auction-card" prefWidth="420" maxWidth="420">
+                <StackPane styleClass="card-image" minHeight="200" prefHeight="200" maxHeight="200">
+                  <ImageView fitWidth="420" fitHeight="200" preserveRatio="false" smooth="true">
+                    <image><Image url="https://picsum.photos/seed/rolexwatch/800/600" backgroundLoading="true"/></image>
+                  </ImageView>
+                  <HBox StackPane.alignment="TOP_LEFT" mouseTransparent="true">
+                    <padding><Insets top="12" left="12"/></padding>
+                    <Label styleClass="card-badge" text="Excellent"/>
+                  </HBox>
+                  <HBox StackPane.alignment="TOP_RIGHT" mouseTransparent="true">
+                    <padding><Insets top="12" right="12"/></padding>
+                    <Label styleClass="card-timer" text="⏱ 2d 0h"/>
+                  </HBox>
+                </StackPane>
+                <VBox styleClass="card-body">
+                  <padding><Insets top="20" right="20" bottom="20" left="20"/></padding>
+                  <Label styleClass="card-category" text="JEWELRY &amp; WATCHES"/>
+                  <Label styleClass="card-title" text="Rolex Submariner Date — Black Dial" wrapText="true"/>
+                  <Label styleClass="card-description" wrapText="true"
+                         text="Stunning Rolex Submariner Date ref. 126610LN in black. Excellent condition with original box and papers.">
+                    <VBox.margin><Insets bottom="16"/></VBox.margin>
+                  </Label>
+                  <HBox alignment="BOTTOM_LEFT" styleClass="card-footer">
+                    <padding><Insets top="16"/></padding>
+                    <VBox>
+                      <Label styleClass="bid-label" text="CURRENT BID"/>
+                      <Label styleClass="bid-amount" text="\$14,500"/>
+                    </VBox>
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <Label styleClass="bid-count" text="4 bids"/>
+                  </HBox>
+                </VBox>
+              </VBox>
+
+              <!-- ====== CARD 2: Fender Stratocaster ====== -->
+              <VBox styleClass="auction-card" prefWidth="420" maxWidth="420">
+                <StackPane styleClass="card-image" minHeight="200" prefHeight="200" maxHeight="200">
+                  <ImageView fitWidth="420" fitHeight="200" preserveRatio="false" smooth="true">
+                    <image><Image url="https://picsum.photos/seed/vintguitar/800/600" backgroundLoading="true"/></image>
+                  </ImageView>
+                  <HBox StackPane.alignment="TOP_LEFT" mouseTransparent="true">
+                    <padding><Insets top="12" left="12"/></padding>
+                    <Label styleClass="card-badge" text="Good"/>
+                  </HBox>
+                  <HBox StackPane.alignment="TOP_RIGHT" mouseTransparent="true">
+                    <padding><Insets top="12" right="12"/></padding>
+                    <Label styleClass="card-timer" text="⏱ 5d 0h"/>
+                  </HBox>
+                </StackPane>
+                <VBox styleClass="card-body">
+                  <padding><Insets top="20" right="20" bottom="20" left="20"/></padding>
+                  <Label styleClass="card-category" text="MUSICAL INSTRUMENTS"/>
+                  <Label styleClass="card-title" text="1963 Fender Stratocaster — 3-Color Sunburst" wrapText="true"/>
+                  <Label styleClass="card-description" wrapText="true"
+                         text="Extremely rare 1963 Fender Stratocaster in 3-color sunburst. Original pickups, original hardshell case.">
+                    <VBox.margin><Insets bottom="16"/></VBox.margin>
+                  </Label>
+                  <HBox alignment="BOTTOM_LEFT" styleClass="card-footer">
+                    <padding><Insets top="16"/></padding>
+                    <VBox>
+                      <Label styleClass="bid-label" text="CURRENT BID"/>
+                      <Label styleClass="bid-amount" text="\$42,000"/>
+                    </VBox>
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <Label styleClass="bid-count" text="4 bids"/>
+                  </HBox>
+                </VBox>
+              </VBox>
+
+              <!-- ====== CARD 3: Banksy Print ====== -->
+              <VBox styleClass="auction-card" prefWidth="420" maxWidth="420">
+                <StackPane styleClass="card-image" minHeight="200" prefHeight="200" maxHeight="200">
+                  <ImageView fitWidth="420" fitHeight="200" preserveRatio="false" smooth="true">
+                    <image><Image url="https://picsum.photos/seed/artprint/800/600" backgroundLoading="true"/></image>
+                  </ImageView>
+                  <HBox StackPane.alignment="TOP_LEFT" mouseTransparent="true">
+                    <padding><Insets top="12" left="12"/></padding>
+                    <Label styleClass="card-badge" text="Mint"/>
+                  </HBox>
+                  <HBox StackPane.alignment="TOP_RIGHT" mouseTransparent="true">
+                    <padding><Insets top="12" right="12"/></padding>
+                    <Label styleClass="card-timer-urgent" text="⏱ 1d 6h"/>
+                  </HBox>
+                </StackPane>
+                <VBox styleClass="card-body">
+                  <padding><Insets top="20" right="20" bottom="20" left="20"/></padding>
+                  <Label styleClass="card-category" text="ART &amp; COLLECTIBLES"/>
+                  <Label styleClass="card-title" text="Authenticated Banksy Print — &quot;Girl with Balloon&quot;" wrapText="true"/>
+                  <Label styleClass="card-description" wrapText="true"
+                         text="Authenticated Banksy screen print, signed and numbered 147/600. Comes with Certificate of Authenticity from Pest Control.">
+                    <VBox.margin><Insets bottom="16"/></VBox.margin>
+                  </Label>
+                  <HBox alignment="BOTTOM_LEFT" styleClass="card-footer">
+                    <padding><Insets top="16"/></padding>
+                    <VBox>
+                      <Label styleClass="bid-label" text="CURRENT BID"/>
+                      <Label styleClass="bid-amount" text="\$18,750"/>
+                    </VBox>
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <Label styleClass="bid-count" text="6 bids"/>
+                  </HBox>
+                </VBox>
+              </VBox>
+
+              <!-- ====== CARD 4: MacBook Pro ====== -->
+              <VBox styleClass="auction-card" prefWidth="420" maxWidth="420">
+                <StackPane styleClass="card-image" minHeight="200" prefHeight="200" maxHeight="200">
+                  <ImageView fitWidth="420" fitHeight="200" preserveRatio="false" smooth="true">
+                    <image><Image url="https://picsum.photos/seed/macbookpro/800/600" backgroundLoading="true"/></image>
+                  </ImageView>
+                  <HBox StackPane.alignment="TOP_LEFT" mouseTransparent="true">
+                    <padding><Insets top="12" left="12"/></padding>
+                    <Label styleClass="card-badge" text="Mint"/>
+                  </HBox>
+                  <HBox StackPane.alignment="TOP_RIGHT" mouseTransparent="true">
+                    <padding><Insets top="12" right="12"/></padding>
+                    <Label styleClass="card-timer" text="⏱ 3d 0h"/>
+                  </HBox>
+                </StackPane>
+                <VBox styleClass="card-body">
+                  <padding><Insets top="20" right="20" bottom="20" left="20"/></padding>
+                  <Label styleClass="card-category" text="ELECTRONICS"/>
+                  <Label styleClass="card-title" text="Apple MacBook Pro 16&quot; M3 Max — Space Black" wrapText="true"/>
+                  <Label styleClass="card-description" wrapText="true"
+                         text="Brand new, factory sealed MacBook Pro 16&quot; with M3 Max chip, 48GB unified RAM, 2TB SSD. Space Black finish.">
+                    <VBox.margin><Insets bottom="16"/></VBox.margin>
+                  </Label>
+                  <HBox alignment="BOTTOM_LEFT" styleClass="card-footer">
+                    <padding><Insets top="16"/></padding>
+                    <VBox>
+                      <Label styleClass="bid-label" text="CURRENT BID"/>
+                      <Label styleClass="bid-amount" text="\$3,100"/>
+                    </VBox>
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <Label styleClass="bid-count" text="3 bids"/>
+                  </HBox>
+                </VBox>
+              </VBox>
+
+              <!-- ====== CARD 5: Ford Mustang ====== -->
+              <VBox styleClass="auction-card" prefWidth="420" maxWidth="420">
+                <StackPane styleClass="card-image" minHeight="200" prefHeight="200" maxHeight="200">
+                  <ImageView fitWidth="420" fitHeight="200" preserveRatio="false" smooth="true">
+                    <image><Image url="https://picsum.photos/seed/mustangcar/800/600" backgroundLoading="true"/></image>
+                  </ImageView>
+                  <HBox StackPane.alignment="TOP_LEFT" mouseTransparent="true">
+                    <padding><Insets top="12" left="12"/></padding>
+                    <Label styleClass="card-badge" text="Excellent"/>
+                  </HBox>
+                  <HBox StackPane.alignment="TOP_RIGHT" mouseTransparent="true">
+                    <padding><Insets top="12" right="12"/></padding>
+                    <Label styleClass="card-timer" text="⏱ 6d 0h"/>
+                  </HBox>
+                </StackPane>
+                <VBox styleClass="card-body">
+                  <padding><Insets top="20" right="20" bottom="20" left="20"/></padding>
+                  <Label styleClass="card-category" text="VEHICLES"/>
+                  <Label styleClass="card-title" text="1965 Ford Mustang Fastback — Restored" wrapText="true"/>
+                  <Label styleClass="card-description" wrapText="true"
+                         text="Fully restored 1965 Ford Mustang Fastback in Highland Green. Numbers-matching 289 V8, 4-speed manual.">
+                    <VBox.margin><Insets bottom="16"/></VBox.margin>
+                  </Label>
+                  <HBox alignment="BOTTOM_LEFT" styleClass="card-footer">
+                    <padding><Insets top="16"/></padding>
+                    <VBox>
+                      <Label styleClass="bid-label" text="CURRENT BID"/>
+                      <Label styleClass="bid-amount" text="\$67,500"/>
+                    </VBox>
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <Label styleClass="bid-count" text="3 bids"/>
+                  </HBox>
+                </VBox>
+              </VBox>
+
+              <!-- ====== CARD 6: Qing Dynasty Vase ====== -->
+              <VBox styleClass="auction-card" prefWidth="420" maxWidth="420">
+                <StackPane styleClass="card-image" minHeight="200" prefHeight="200" maxHeight="200">
+                  <ImageView fitWidth="420" fitHeight="200" preserveRatio="false" smooth="true">
+                    <image><Image url="https://picsum.photos/seed/chinesevase/800/600" backgroundLoading="true"/></image>
+                  </ImageView>
+                  <HBox StackPane.alignment="TOP_LEFT" mouseTransparent="true">
+                    <padding><Insets top="12" left="12"/></padding>
+                    <Label styleClass="card-badge" text="Good"/>
+                  </HBox>
+                  <HBox StackPane.alignment="TOP_RIGHT" mouseTransparent="true">
+                    <padding><Insets top="12" right="12"/></padding>
+                    <Label styleClass="card-timer" text="⏱ 4d 0h"/>
+                  </HBox>
+                </StackPane>
+                <VBox styleClass="card-body">
+                  <padding><Insets top="20" right="20" bottom="20" left="20"/></padding>
+                  <Label styleClass="card-category" text="ANTIQUES"/>
+                  <Label styleClass="card-title" text="Antique Chinese Porcelain Vase — Qing Dynasty" wrapText="true"/>
+                  <Label styleClass="card-description" wrapText="true"
+                         text="Rare Qing Dynasty famille rose porcelain vase, circa 1790–1820. Hand-painted with intricate floral motifs. 14 inches tall.">
+                    <VBox.margin><Insets bottom="16"/></VBox.margin>
+                  </Label>
+                  <HBox alignment="BOTTOM_LEFT" styleClass="card-footer">
+                    <padding><Insets top="16"/></padding>
+                    <VBox>
+                      <Label styleClass="bid-label" text="CURRENT BID"/>
+                      <Label styleClass="bid-amount" text="\$8,200"/>
+                    </VBox>
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <Label styleClass="bid-count" text="4 bids"/>
+                  </HBox>
+                </VBox>
+              </VBox>
+
+              <!-- ====== CARD 7: Hermes Birkin ====== -->
+              <VBox styleClass="auction-card" prefWidth="420" maxWidth="420">
+                <StackPane styleClass="card-image" minHeight="200" prefHeight="200" maxHeight="200">
+                  <ImageView fitWidth="420" fitHeight="200" preserveRatio="false" smooth="true">
+                    <image><Image url="https://picsum.photos/seed/hermesbirkin/800/600" backgroundLoading="true"/></image>
+                  </ImageView>
+                  <HBox StackPane.alignment="TOP_LEFT" mouseTransparent="true">
+                    <padding><Insets top="12" left="12"/></padding>
+                    <Label styleClass="card-badge" text="Excellent"/>
+                  </HBox>
+                  <HBox StackPane.alignment="TOP_RIGHT" mouseTransparent="true">
+                    <padding><Insets top="12" right="12"/></padding>
+                    <Label styleClass="card-timer-urgent" text="⏱ 0h 12m"/>
+                  </HBox>
+                </StackPane>
+                <VBox styleClass="card-body">
+                  <padding><Insets top="20" right="20" bottom="20" left="20"/></padding>
+                  <Label styleClass="card-category" text="FASHION"/>
+                  <Label styleClass="card-title" text="Hermès Birkin 30 — Gold Togo Leather" wrapText="true"/>
+                  <Label styleClass="card-description" wrapText="true"
+                         text="Authentic Hermès Birkin 30 in Gold Togo leather with gold hardware. Full set: original box, dustbag, lock, keys and clochette.">
+                    <VBox.margin><Insets bottom="16"/></VBox.margin>
+                  </Label>
+                  <HBox alignment="BOTTOM_LEFT" styleClass="card-footer">
+                    <padding><Insets top="16"/></padding>
+                    <VBox>
+                      <Label styleClass="bid-label" text="CURRENT BID"/>
+                      <Label styleClass="bid-amount" text="\$22,000"/>
+                    </VBox>
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <Label styleClass="bid-count" text="5 bids"/>
+                  </HBox>
+                </VBox>
+              </VBox>
+
+              <!-- ====== CARD 8: Pokemon Box ====== -->
+              <VBox styleClass="auction-card" prefWidth="420" maxWidth="420">
+                <StackPane styleClass="card-image" minHeight="200" prefHeight="200" maxHeight="200">
+                  <ImageView fitWidth="420" fitHeight="200" preserveRatio="false" smooth="true">
+                    <image><Image url="https://picsum.photos/seed/pokemonbox/800/600" backgroundLoading="true"/></image>
+                  </ImageView>
+                  <HBox StackPane.alignment="TOP_LEFT" mouseTransparent="true">
+                    <padding><Insets top="12" left="12"/></padding>
+                    <Label styleClass="card-badge" text="Mint"/>
+                  </HBox>
+                  <HBox StackPane.alignment="TOP_RIGHT" mouseTransparent="true">
+                    <padding><Insets top="12" right="12"/></padding>
+                    <Label styleClass="card-timer" text="⏱ 2d 14h"/>
+                  </HBox>
+                </StackPane>
+                <VBox styleClass="card-body">
+                  <padding><Insets top="20" right="20" bottom="20" left="20"/></padding>
+                  <Label styleClass="card-category" text="ART &amp; COLLECTIBLES"/>
+                  <Label styleClass="card-title" text="Pokémon Base Set Booster Box — Unlimited" wrapText="true"/>
+                  <Label styleClass="card-description" wrapText="true"
+                         text="Factory sealed Pokémon Trading Card Game Base Set Unlimited Edition booster box. 36 packs. Original plastic wrap intact.">
+                    <VBox.margin><Insets bottom="16"/></VBox.margin>
+                  </Label>
+                  <HBox alignment="BOTTOM_LEFT" styleClass="card-footer">
+                    <padding><Insets top="16"/></padding>
+                    <VBox>
+                      <Label styleClass="bid-label" text="CURRENT BID"/>
+                      <Label styleClass="bid-amount" text="\$9,750"/>
+                    </VBox>
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <Label styleClass="bid-count" text="4 bids"/>
+                  </HBox>
+                </VBox>
+              </VBox>
+
+            </TilePane>
+          </VBox>
+        </VBox>
+      </VBox>
+    </ScrollPane>
+
+    <!-- ============================================================== -->
+    <!-- AUTH VIEW (hidden)                                             -->
+    <!-- ============================================================== -->
+    <ScrollPane fitToWidth="true" fitToHeight="true" hbarPolicy="NEVER" vbarPolicy="NEVER" styleClass="view-scroll" visible="false" managed="false"
+                fx:id="viewAuth">
+      <VBox styleClass="auth-container" alignment="CENTER">
+        <Region VBox.vgrow="ALWAYS"/>
+        <VBox styleClass="auth-card" maxWidth="440" alignment="TOP_CENTER">
+          <padding><Insets top="40" right="40" bottom="40" left="40"/></padding>
+
+          <!-- Auth Logo -->
+          <VBox alignment="CENTER" spacing="4">
+            <VBox.margin><Insets bottom="32"/></VBox.margin>
+            <Label styleClass="auth-logo-text" text="⚡ Adjugé!"/>
+            <Label styleClass="auth-tagline" text="Premium Auction Platform"/>
+          </VBox>
+
+          <!-- Divider -->
+          <Separator styleClass="auth-divider">
+            <VBox.margin><Insets bottom="28"/></VBox.margin>
+          </Separator>
+
+          <!-- Login Form -->
+          <VBox spacing="0" fx:id="formLogin">
+            <!-- Email -->
+            <VBox spacing="6">
+              <VBox.margin><Insets bottom="18"/></VBox.margin>
+              <Label styleClass="form-label" text="Email address"/>
+              <TextField fx:id="loginEmail" styleClass="form-input" promptText="you@example.com"/>
+            </VBox>
+            <!-- Password -->
+            <VBox spacing="6">
+              <VBox.margin><Insets bottom="12"/></VBox.margin>
+              <Label styleClass="form-label" text="Password"/>
+              <PasswordField fx:id="loginPassword" styleClass="form-input" promptText="••••••••"/>
+            </VBox>
+            <!-- Error -->
+            <Label fx:id="loginError" styleClass="field-error" text="" minHeight="16">
+              <VBox.margin><Insets bottom="12"/></VBox.margin>
+            </Label>
+            <!-- Submit -->
+            <Button text="Sign In" styleClass="btn-primary-lg-full" maxWidth="Infinity" onAction="#onLogin"/>
+            <!-- Footer -->
+            <HBox alignment="CENTER" spacing="4">
+              <VBox.margin><Insets top="20"/></VBox.margin>
+              <Label styleClass="form-footer-text" text="Don't have an account?"/>
+              <Hyperlink styleClass="form-link" text="Create one" onAction="#onTabCreateAccount"/>
+            </HBox>
+            <!-- Demo hint -->
+            <Label styleClass="demo-hint" text="Demo: demo@adjuge.com / password123"
+                   maxWidth="Infinity" alignment="CENTER">
+              <VBox.margin><Insets top="12"/></VBox.margin>
+            </Label>
+          </VBox>
+
+          <!-- Register Form (hidden by default) -->
+          <VBox spacing="0" fx:id="formRegister" visible="false" managed="false">
+            <!-- Name Row -->
+            <HBox spacing="16">
+              <VBox.margin><Insets bottom="18"/></VBox.margin>
+              <VBox spacing="6" HBox.hgrow="ALWAYS">
+                <Label styleClass="form-label" text="First name"/>
+                <TextField fx:id="regFirstName" styleClass="form-input" promptText="John"/>
+              </VBox>
+              <VBox spacing="6" HBox.hgrow="ALWAYS">
+                <Label styleClass="form-label" text="Last name"/>
+                <TextField fx:id="regLastName" styleClass="form-input" promptText="Smith"/>
+              </VBox>
+            </HBox>
+            <!-- Email -->
+            <VBox spacing="6">
+              <VBox.margin><Insets bottom="18"/></VBox.margin>
+              <Label styleClass="form-label" text="Email address"/>
+              <TextField fx:id="regEmail" styleClass="form-input" promptText="you@example.com"/>
+            </VBox>
+            <!-- Password -->
+            <VBox spacing="6">
+              <VBox.margin><Insets bottom="18"/></VBox.margin>
+              <Label styleClass="form-label" text="Password"/>
+              <PasswordField fx:id="regPassword" styleClass="form-input" promptText="Min. 6 characters"/>
+            </VBox>
+            <!-- Confirm Password -->
+            <VBox spacing="6">
+              <VBox.margin><Insets bottom="12"/></VBox.margin>
+              <Label styleClass="form-label" text="Confirm password"/>
+              <PasswordField fx:id="regConfirm" styleClass="form-input" promptText="Re-enter password"/>
+            </VBox>
+            <!-- Error -->
+            <Label fx:id="regError" styleClass="field-error" text="" minHeight="16">
+              <VBox.margin><Insets bottom="12"/></VBox.margin>
+            </Label>
+            <!-- Submit -->
+            <Button text="Create Account" styleClass="btn-primary-lg-full" maxWidth="Infinity" onAction="#onRegister"/>
+            <!-- Footer -->
+            <HBox alignment="CENTER" spacing="4">
+              <VBox.margin><Insets top="20"/></VBox.margin>
+              <Label styleClass="form-footer-text" text="Already have an account?"/>
+              <Hyperlink styleClass="form-link" text="Sign in" onAction="#onTabSignIn"/>
+            </HBox>
+          </VBox>
+        </VBox>
+        <Region VBox.vgrow="ALWAYS"/>
+      </VBox>
+    </ScrollPane>
+
+    <!-- ============================================================== -->
+    <!-- AUCTION DETAIL VIEW (hidden)                                   -->
+    <!-- ============================================================== -->
+    <ScrollPane fitToWidth="true" hbarPolicy="NEVER" styleClass="view-scroll" visible="false" managed="false"
+                fx:id="viewAuction">
+      <VBox alignment="TOP_CENTER">
+        <padding><Insets top="32" bottom="64" left="32" right="32"/></padding>
+        <VBox spacing="0">
+          <!-- Back button -->
+          <Button text="← Back to Auctions" styleClass="back-btn" onAction="#onBackToAuctions">
+            <VBox.margin><Insets bottom="24"/></VBox.margin>
+          </Button>
+
+          <!-- Auction Layout: Image + Info side by side -->
+          <HBox fx:id="auctionDetailContent" spacing="32">
+            <!-- Left column: Image, meta, description, bid history -->
+            <VBox HBox.hgrow="ALWAYS" spacing="0">
+              <!-- Main Image -->
+              <StackPane styleClass="auction-image-main" minHeight="450" prefHeight="450">
+                <ImageView fitWidth="900" fitHeight="450" preserveRatio="false" smooth="true">
+                  <image><Image url="https://picsum.photos/seed/rolexwatch/800/600" backgroundLoading="true"/></image>
+                </ImageView>
+              </StackPane>
+              <!-- Meta Tags -->
+              <HBox spacing="12" alignment="CENTER_LEFT">
+                <VBox.margin><Insets top="16" bottom="16"/></VBox.margin>
+                <Label styleClass="meta-tag-gold" text="Jewelry &amp; Watches"/>
+                <Label styleClass="meta-tag" text="Condition: Excellent"/>
+                <Label styleClass="meta-tag" text="ID: #A1"/>
+              </HBox>
+              <!-- Title -->
+              <Label styleClass="detail-title" text="Rolex Submariner Date — Black Dial" wrapText="true"/>
+              <!-- Description -->
+              <Label styleClass="detail-description" wrapText="true"
+                     text="Stunning Rolex Submariner Date ref. 126610LN in black. Excellent condition with original box and papers. Purchased 2021, worn only a handful of times. Complete set.">
+                <VBox.margin><Insets top="16" bottom="32"/></VBox.margin>
+              </Label>
+              <!-- Bid History Header -->
+              <HBox alignment="CENTER_LEFT" spacing="8">
+                <VBox.margin><Insets bottom="16"/></VBox.margin>
+                <Label styleClass="bid-history-title" text="Bid History"/>
+                <Label styleClass="bid-history-count" text="(4 bids)"/>
+              </HBox>
+              <!-- Bid History List -->
+              <VBox spacing="6" styleClass="bid-history-list">
+                <!-- Top bid -->
+                <HBox styleClass="bid-entry-top" alignment="CENTER_LEFT">
+                  <padding><Insets top="9" right="12" bottom="9" left="12"/></padding>
+                  <VBox>
+                    <Label styleClass="bid-entry-user" text="Sarah K. 👑"/>
+                    <Label styleClass="bid-entry-time" text="1d ago"/>
+                  </VBox>
+                  <Region HBox.hgrow="ALWAYS"/>
+                  <Label styleClass="bid-entry-amount" text="\$14,500"/>
+                </HBox>
+                <HBox styleClass="bid-entry" alignment="CENTER_LEFT">
+                  <padding><Insets top="9" right="12" bottom="9" left="12"/></padding>
+                  <VBox>
+                    <Label styleClass="bid-entry-user" text="Alex M."/>
+                    <Label styleClass="bid-entry-time" text="3d ago"/>
+                  </VBox>
+                  <Region HBox.hgrow="ALWAYS"/>
+                  <Label styleClass="bid-entry-amount" text="\$11,000"/>
+                </HBox>
+                <HBox styleClass="bid-entry" alignment="CENTER_LEFT">
+                  <padding><Insets top="9" right="12" bottom="9" left="12"/></padding>
+                  <VBox>
+                    <Label styleClass="bid-entry-user" text="Sarah K."/>
+                    <Label styleClass="bid-entry-time" text="4d ago"/>
+                  </VBox>
+                  <Region HBox.hgrow="ALWAYS"/>
+                  <Label styleClass="bid-entry-amount" text="\$9,500"/>
+                </HBox>
+                <HBox styleClass="bid-entry" alignment="CENTER_LEFT">
+                  <padding><Insets top="9" right="12" bottom="9" left="12"/></padding>
+                  <VBox>
+                    <Label styleClass="bid-entry-user" text="James T."/>
+                    <Label styleClass="bid-entry-time" text="5d ago"/>
+                  </VBox>
+                  <Region HBox.hgrow="ALWAYS"/>
+                  <Label styleClass="bid-entry-amount" text="\$8,000"/>
+                </HBox>
+              </VBox>
+            </VBox>
+
+            <!-- Right column: Info Card -->
+            <VBox styleClass="auction-info-card" prefWidth="400" minWidth="400" maxWidth="400" spacing="0">
+              <padding><Insets top="24" right="24" bottom="24" left="24"/></padding>
+
+              <!-- Current Bid Display -->
+              <VBox alignment="CENTER" styleClass="current-bid-display">
+                <padding><Insets top="20" bottom="20"/></padding>
+                <Label styleClass="current-bid-label" text="CURRENT BID"/>
+                <Label styleClass="current-bid-amount" text="\$14,500"/>
+                <Label styleClass="bid-count-info" text="4 bids"/>
+              </VBox>
+
+              <!-- Time Remaining -->
+              <VBox>
+                <VBox.margin><Insets top="20" bottom="20"/></VBox.margin>
+                <Label styleClass="time-remaining-label" text="TIME REMAINING">
+                  <VBox.margin><Insets bottom="8"/></VBox.margin>
+                </Label>
+                <HBox spacing="6">
+                  <VBox styleClass="countdown-unit" alignment="CENTER" HBox.hgrow="ALWAYS">
+                    <padding><Insets top="10" bottom="10" left="4" right="4"/></padding>
+                    <Label styleClass="countdown-value" text="02"/>
+                    <Label styleClass="countdown-label" text="DAYS"/>
+                  </VBox>
+                  <VBox styleClass="countdown-unit" alignment="CENTER" HBox.hgrow="ALWAYS">
+                    <padding><Insets top="10" bottom="10" left="4" right="4"/></padding>
+                    <Label styleClass="countdown-value" text="00"/>
+                    <Label styleClass="countdown-label" text="HRS"/>
+                  </VBox>
+                  <VBox styleClass="countdown-unit" alignment="CENTER" HBox.hgrow="ALWAYS">
+                    <padding><Insets top="10" bottom="10" left="4" right="4"/></padding>
+                    <Label styleClass="countdown-value" text="00"/>
+                    <Label styleClass="countdown-label" text="MIN"/>
+                  </VBox>
+                  <VBox styleClass="countdown-unit" alignment="CENTER" HBox.hgrow="ALWAYS">
+                    <padding><Insets top="10" bottom="10" left="4" right="4"/></padding>
+                    <Label styleClass="countdown-value" text="00"/>
+                    <Label styleClass="countdown-label" text="SEC"/>
+                  </VBox>
+                </HBox>
+              </VBox>
+
+              <!-- Bid Input -->
+              <HBox spacing="10">
+                <VBox.margin><Insets bottom="10"/></VBox.margin>
+                <TextField styleClass="bid-input" promptText="14501" HBox.hgrow="ALWAYS"/>
+                <Button text="🔨 Bid" styleClass="btn-primary"/>
+              </HBox>
+              <Label styleClass="bid-hint" text="Enter \$14,501 or more to bid">
+                <VBox.margin><Insets bottom="16"/></VBox.margin>
+              </Label>
+
+              <!-- Seller Info -->
+              <HBox alignment="CENTER_LEFT" spacing="12" styleClass="seller-info">
+                <VBox.margin><Insets top="16"/></VBox.margin>
+                <padding><Insets top="16"/></padding>
+                <StackPane styleClass="seller-avatar" minWidth="38" minHeight="38" prefWidth="38" prefHeight="38">
+                  <Label text="VS" styleClass="seller-avatar-text"/>
+                </StackPane>
+                <VBox spacing="2">
+                  <Label styleClass="seller-name" text="Verified Seller"/>
+                  <Label styleClass="seller-label" text="⭐ Verified Seller"/>
+                </VBox>
+              </HBox>
+
+              <!-- Divider -->
+              <Region styleClass="divider">
+                <VBox.margin><Insets top="16" bottom="16"/></VBox.margin>
+              </Region>
+
+              <!-- Listing Details -->
+              <VBox spacing="8">
+                <HBox>
+                  <Label styleClass="detail-info-label" text="Starting bid"/>
+                  <Region HBox.hgrow="ALWAYS"/>
+                  <Label styleClass="detail-info-value" text="\$8,000"/>
+                </HBox>
+                <HBox>
+                  <Label styleClass="detail-info-label" text="Listed"/>
+                  <Region HBox.hgrow="ALWAYS"/>
+                  <Label styleClass="detail-info-value" text="Mar 20, 2026"/>
+                </HBox>
+                <HBox>
+                  <Label styleClass="detail-info-label" text="Ends"/>
+                  <Region HBox.hgrow="ALWAYS"/>
+                  <Label styleClass="detail-info-value" text="Mar 27, 2026"/>
+                </HBox>
+              </VBox>
+            </VBox>
+          </HBox>
+        </VBox>
+      </VBox>
+    </ScrollPane>
+
+    <!-- ============================================================== -->
+    <!-- DASHBOARD VIEW (hidden)                                        -->
+    <!-- ============================================================== -->
+    <ScrollPane fitToWidth="true" hbarPolicy="NEVER" styleClass="view-scroll" visible="false" managed="false"
+                fx:id="viewDashboard">
+      <VBox alignment="TOP_CENTER">
+        <padding><Insets top="32" bottom="64" left="32" right="32"/></padding>
+        <VBox fx:id="dashboardContent" spacing="0">
+
+          <!-- Greeting -->
+          <Label styleClass="dashboard-greeting" text="Welcome back, Alex 👋"/>
+          <Label styleClass="dashboard-subtitle" text="Member since Dec 25, 2025">
+            <VBox.margin><Insets bottom="24"/></VBox.margin>
+          </Label>
+
+          <!-- Stats Grid -->
+          <TilePane hgap="16" vgap="16" prefColumns="4" alignment="TOP_LEFT">
+            <VBox.margin><Insets bottom="32"/></VBox.margin>
+            <VBox styleClass="stat-card" prefWidth="190">
+              <padding><Insets top="20" right="20" bottom="20" left="20"/></padding>
+              <Label styleClass="stat-card-label" text="ACTIVE BIDS"/>
+              <Label styleClass="stat-card-value" text="3"/>
+              <Label styleClass="stat-card-sub" text="Currently bidding"/>
+            </VBox>
+            <VBox styleClass="stat-card" prefWidth="190">
+              <padding><Insets top="20" right="20" bottom="20" left="20"/></padding>
+              <Label styleClass="stat-card-label" text="AUCTIONS WON"/>
+              <Label styleClass="stat-card-value-success" text="0"/>
+              <Label styleClass="stat-card-sub" text="Items secured"/>
+            </VBox>
+            <VBox styleClass="stat-card" prefWidth="190">
+              <padding><Insets top="20" right="20" bottom="20" left="20"/></padding>
+              <Label styleClass="stat-card-label" text="TOTAL SPENT"/>
+              <Label styleClass="stat-card-value" text="\$0"/>
+              <Label styleClass="stat-card-sub" text="On won items"/>
+            </VBox>
+            <VBox styleClass="stat-card" prefWidth="190">
+              <padding><Insets top="20" right="20" bottom="20" left="20"/></padding>
+              <Label styleClass="stat-card-label" text="MY LISTINGS"/>
+              <Label styleClass="stat-card-value" text="1"/>
+              <Label styleClass="stat-card-sub" text="Items for sale"/>
+            </VBox>
+          </TilePane>
+
+          <!-- Dashboard Tabs -->
+          <HBox styleClass="dashboard-tabs" spacing="4">
+            <VBox.margin><Insets bottom="24"/></VBox.margin>
+            <Button text="My Bids (4)" styleClass="dash-tab-active"/>
+            <Button text="My Listings (1)" styleClass="dash-tab"/>
+          </HBox>
+
+          <!-- Bids Table -->
+          <VBox styleClass="table-wrapper">
+            <!-- Table Header -->
+            <HBox styleClass="table-header">
+              <Label styleClass="th" text="ITEM" prefWidth="280"/>
+              <Label styleClass="th" text="YOUR BID" prefWidth="120"/>
+              <Label styleClass="th" text="CURRENT BID" prefWidth="120"/>
+              <Label styleClass="th" text="STATUS" prefWidth="120"/>
+              <Label styleClass="th" text="ENDS" prefWidth="120"/>
+              <Label styleClass="th" text="" prefWidth="80"/>
+            </HBox>
+            <!-- Table Row 1 -->
+            <HBox styleClass="table-row" alignment="CENTER_LEFT">
+              <VBox prefWidth="280">
+                <padding><Insets top="13" right="16" bottom="13" left="16"/></padding>
+                <Label styleClass="td-title" text="Rolex Submariner Date — Black..."/>
+                <Label styleClass="td-subtitle" text="Jewelry &amp; Watches"/>
+              </VBox>
+              <Label styleClass="td-gold" text="\$11,000" prefWidth="120">
+                <padding><Insets left="16"/></padding>
+              </Label>
+              <Label styleClass="td" text="\$14,500" prefWidth="120">
+                <padding><Insets left="16"/></padding>
+              </Label>
+              <HBox prefWidth="120" alignment="CENTER_LEFT">
+                <padding><Insets left="16"/></padding>
+                <Label styleClass="status-badge-outbid" text="⬇ Outbid"/>
+              </HBox>
+              <Label styleClass="td-muted" text="Mar 27, 2026" prefWidth="120">
+                <padding><Insets left="16"/></padding>
+              </Label>
+              <HBox prefWidth="80" alignment="CENTER">
+                <Button text="View" styleClass="btn-ghost-sm"/>
+              </HBox>
+            </HBox>
+            <!-- Table Row 2 -->
+            <HBox styleClass="table-row" alignment="CENTER_LEFT">
+              <VBox prefWidth="280">
+                <padding><Insets top="13" right="16" bottom="13" left="16"/></padding>
+                <Label styleClass="td-title" text="1963 Fender Stratocaster — 3-C..."/>
+                <Label styleClass="td-subtitle" text="Musical Instruments"/>
+              </VBox>
+              <Label styleClass="td-gold" text="\$22,000" prefWidth="120">
+                <padding><Insets left="16"/></padding>
+              </Label>
+              <Label styleClass="td" text="\$42,000" prefWidth="120">
+                <padding><Insets left="16"/></padding>
+              </Label>
+              <HBox prefWidth="120" alignment="CENTER_LEFT">
+                <padding><Insets left="16"/></padding>
+                <Label styleClass="status-badge-outbid" text="⬇ Outbid"/>
+              </HBox>
+              <Label styleClass="td-muted" text="Mar 30, 2026" prefWidth="120">
+                <padding><Insets left="16"/></padding>
+              </Label>
+              <HBox prefWidth="80" alignment="CENTER">
+                <Button text="View" styleClass="btn-ghost-sm"/>
+              </HBox>
+            </HBox>
+            <!-- Table Row 3 -->
+            <HBox styleClass="table-row" alignment="CENTER_LEFT">
+              <VBox prefWidth="280">
+                <padding><Insets top="13" right="16" bottom="13" left="16"/></padding>
+                <Label styleClass="td-title" text="Authenticated Banksy Print — &quot;Gi..."/>
+                <Label styleClass="td-subtitle" text="Art &amp; Collectibles"/>
+              </VBox>
+              <Label styleClass="td-gold" text="\$15,000" prefWidth="120">
+                <padding><Insets left="16"/></padding>
+              </Label>
+              <Label styleClass="td" text="\$18,750" prefWidth="120">
+                <padding><Insets left="16"/></padding>
+              </Label>
+              <HBox prefWidth="120" alignment="CENTER_LEFT">
+                <padding><Insets left="16"/></padding>
+                <Label styleClass="status-badge-outbid" text="⬇ Outbid"/>
+              </HBox>
+              <Label styleClass="td-muted" text="Mar 26, 2026" prefWidth="120">
+                <padding><Insets left="16"/></padding>
+              </Label>
+              <HBox prefWidth="80" alignment="CENTER">
+                <Button text="View" styleClass="btn-ghost-sm"/>
+              </HBox>
+            </HBox>
+            <!-- Table Row 4 -->
+            <HBox styleClass="table-row-last" alignment="CENTER_LEFT">
+              <VBox prefWidth="280">
+                <padding><Insets top="13" right="16" bottom="13" left="16"/></padding>
+                <Label styleClass="td-title" text="Antique Chinese Porcelain Vase..."/>
+                <Label styleClass="td-subtitle" text="Antiques"/>
+              </VBox>
+              <Label styleClass="td-gold" text="\$4,500" prefWidth="120">
+                <padding><Insets left="16"/></padding>
+              </Label>
+              <Label styleClass="td" text="\$8,200" prefWidth="120">
+                <padding><Insets left="16"/></padding>
+              </Label>
+              <HBox prefWidth="120" alignment="CENTER_LEFT">
+                <padding><Insets left="16"/></padding>
+                <Label styleClass="status-badge-outbid" text="⬇ Outbid"/>
+              </HBox>
+              <Label styleClass="td-muted" text="Mar 29, 2026" prefWidth="120">
+                <padding><Insets left="16"/></padding>
+              </Label>
+              <HBox prefWidth="80" alignment="CENTER">
+                <Button text="View" styleClass="btn-ghost-sm"/>
+              </HBox>
+            </HBox>
+          </VBox>
+        </VBox>
+      </VBox>
+    </ScrollPane>
+
+    <!-- ============================================================== -->
+    <!-- CREATE VIEW (hidden)                                           -->
+    <!-- ============================================================== -->
+    <ScrollPane fitToWidth="true" hbarPolicy="NEVER" styleClass="view-scroll" visible="false" managed="false"
+                fx:id="viewCreate">
+      <VBox alignment="TOP_CENTER">
+        <padding><Insets top="32" bottom="64" left="32" right="32"/></padding>
+        <VBox spacing="0">
+          <!-- Back button -->
+          <Button text="← Back" styleClass="back-btn" onAction="#onBackFromCreate">
+            <VBox.margin><Insets bottom="24"/></VBox.margin>
+          </Button>
+          <Label styleClass="page-title" text="List an Item"/>
+          <Label styleClass="page-subtitle" text="Fill in the details below to start your auction.">
+            <VBox.margin><Insets top="8" bottom="32"/></VBox.margin>
+          </Label>
+
+          <!-- Form Card -->
+          <VBox styleClass="form-card" maxWidth="700">
+            <padding><Insets top="32" right="32" bottom="32" left="32"/></padding>
+
+            <!-- Item Details Section -->
+            <Label styleClass="form-section-title" text="ITEM DETAILS">
+              <VBox.margin><Insets bottom="16"/></VBox.margin>
+            </Label>
+
+            <!-- Title -->
+            <VBox spacing="6">
+              <VBox.margin><Insets bottom="18"/></VBox.margin>
+              <Label styleClass="form-label" text="Title *"/>
+              <TextField fx:id="createTitle" styleClass="form-input" promptText="e.g., 1967 Vintage Gibson Les Paul Guitar"/>
+            </VBox>
+
+            <!-- Description -->
+            <VBox spacing="6">
+              <VBox.margin><Insets bottom="18"/></VBox.margin>
+              <Label styleClass="form-label" text="Description *"/>
+              <TextArea fx:id="createDesc" styleClass="form-textarea" promptText="Describe your item in detail — condition, provenance, what's included…"
+                        prefRowCount="4" wrapText="true"/>
+            </VBox>
+
+            <!-- Category + Condition Row -->
+            <HBox spacing="16">
+              <VBox.margin><Insets bottom="18"/></VBox.margin>
+              <VBox spacing="6" HBox.hgrow="ALWAYS">
+                <Label styleClass="form-label" text="Category *"/>
+                <ComboBox fx:id="createCategory" styleClass="form-select" promptText="Select category" maxWidth="Infinity">
+                  <items>
+                    <FXCollections fx:factory="observableArrayList">
+                      <String fx:value="Electronics"/>
+                      <String fx:value="Jewelry &amp; Watches"/>
+                      <String fx:value="Art &amp; Collectibles"/>
+                      <String fx:value="Vehicles"/>
+                      <String fx:value="Musical Instruments"/>
+                      <String fx:value="Antiques"/>
+                      <String fx:value="Fashion"/>
+                      <String fx:value="Sports &amp; Outdoors"/>
+                      <String fx:value="Other"/>
+                    </FXCollections>
+                  </items>
+                </ComboBox>
+              </VBox>
+              <VBox spacing="6" HBox.hgrow="ALWAYS">
+                <Label styleClass="form-label" text="Condition"/>
+                <ComboBox fx:id="createCondition" styleClass="form-select" maxWidth="Infinity" value="Mint">
+                  <items>
+                    <FXCollections fx:factory="observableArrayList">
+                      <String fx:value="Mint"/>
+                      <String fx:value="Excellent"/>
+                      <String fx:value="Good"/>
+                      <String fx:value="Fair"/>
+                      <String fx:value="Poor"/>
+                    </FXCollections>
+                  </items>
+                </ComboBox>
+              </VBox>
+            </HBox>
+
+            <!-- Image Upload Area -->
+            <VBox spacing="6">
+              <VBox.margin><Insets bottom="18"/></VBox.margin>
+              <HBox spacing="4">
+                <Label styleClass="form-label" text="Item Image"/>
+                <Label styleClass="form-label-muted" text="(optional)"/>
+              </HBox>
+              <VBox styleClass="image-upload-box" alignment="CENTER">
+                <padding><Insets top="24" bottom="24" left="24" right="24"/></padding>
+                <Label text="🖼️" style="-fx-font-size: 32px;">
+                  <VBox.margin><Insets bottom="6"/></VBox.margin>
+                </Label>
+                <Label styleClass="upload-title" text="Click to choose an image"/>
+                <Label styleClass="upload-subtitle" text="or drag &amp; drop — JPG, PNG, WEBP, GIF"/>
+              </VBox>
+            </VBox>
+
+            <!-- Divider -->
+            <Region styleClass="divider">
+              <VBox.margin><Insets top="16" bottom="16"/></VBox.margin>
+            </Region>
+
+            <!-- Pricing Section -->
+            <Label styleClass="form-section-title" text="PRICING &amp; DURATION">
+              <VBox.margin><Insets bottom="16"/></VBox.margin>
+            </Label>
+
+            <!-- Price + Duration Row -->
+            <HBox spacing="16">
+              <VBox.margin><Insets bottom="12"/></VBox.margin>
+              <VBox spacing="6" HBox.hgrow="ALWAYS">
+                <Label styleClass="form-label" text="Starting Bid (\$) *"/>
+                <TextField fx:id="createStartPrice" styleClass="form-input" promptText="100"/>
+              </VBox>
+              <VBox spacing="6" HBox.hgrow="ALWAYS">
+                <Label styleClass="form-label" text="Auction Duration *"/>
+                <ComboBox fx:id="createDuration" styleClass="form-select" maxWidth="Infinity" value="7 Days">
+                  <items>
+                    <FXCollections fx:factory="observableArrayList">
+                      <String fx:value="1 Day"/>
+                      <String fx:value="3 Days"/>
+                      <String fx:value="5 Days"/>
+                      <String fx:value="7 Days"/>
+                      <String fx:value="14 Days"/>
+                    </FXCollections>
+                  </items>
+                </ComboBox>
+              </VBox>
+            </HBox>
+
+            <!-- Error -->
+            <Label fx:id="createError" styleClass="field-error" text="" minHeight="16">
+              <VBox.margin><Insets bottom="12"/></VBox.margin>
+            </Label>
+
+            <!-- Submit -->
+            <Button text="🔨 List Item for Auction" styleClass="btn-primary-lg" onAction="#onCreateAuction"/>
+          </VBox>
+        </VBox>
+      </VBox>
+    </ScrollPane>
+
+  </StackPane>
+
+  <!-- ================================================================ -->
+  <!-- FOOTER                                                           -->
+  <!-- ================================================================ -->
+  <HBox styleClass="footer" alignment="CENTER" minHeight="60" prefHeight="60" maxHeight="60">
+    <padding><Insets left="32" right="32"/></padding>
+    <HBox alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
+      <Label styleClass="footer-text" text="⚡ Adjugé! — Premium Auction House"/>
+      <Region HBox.hgrow="ALWAYS"/>
+      <Label styleClass="footer-text" text="© 2025 Adjugé!. All rights reserved."/>
+      <Region HBox.hgrow="ALWAYS"/>
+      <Label styleClass="footer-text" text="🔒 Secure &amp; Trusted"/>
+    </HBox>
+  </HBox>
+
+</VBox>

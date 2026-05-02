@@ -188,7 +188,7 @@ public class DataStore {
 
         // Auction 3: Banksy print — listed by Sarah, 6 bids (most active)
         Auction a3 = new Auction("a3", banksy, "u_s3", "Sarah K.",
-                5000, now.minusDays(6), now.plusDays(1).plusHours(6));
+                5000, now.minusDays(6), now.plusDays(1).plusHours(6),ValidatorType.STANDARD);
         a3.addBid(new BidTransaction("b9", "a3", "u_s1", "James T.", 5000, now.minusDays(6)));
         a3.addBid(new BidTransaction("b10", "a3", "u_demo", "Alex M.", 7500, now.minusDays(5)));
         a3.addBid(new BidTransaction("b11", "a3", "u_s2", "Mike R.", 10000, now.minusDays(4)));
@@ -198,21 +198,21 @@ public class DataStore {
 
         // Auction 4: MacBook — listed by Alex (demo user), 3 bids
         Auction a4 = new Auction("a4", macbook, "u_demo", "Alex M.",
-                2000, now.minusDays(1), now.plusDays(3));
+                2000, now.minusDays(1), now.plusDays(3), ValidatorType.STEP_PRICE);
         a4.addBid(new BidTransaction("b15", "a4", "u_s1", "James T.", 2000, now.minusDays(1)));
         a4.addBid(new BidTransaction("b16", "a4", "u_s2", "Mike R.", 2500, now.minusHours(18)));
         a4.addBid(new BidTransaction("b17", "a4", "u_s3", "Sarah K.", 3100, now.minusHours(8)));
 
         // Auction 5: Mustang — listed by Mike, 3 bids
         Auction a5 = new Auction("a5", mustang, "u_s2", "Mike R.",
-                45000, now.minusDays(1), now.plusDays(6));
+                45000, now.minusDays(1), now.plusDays(6),ValidatorType.STEP_PRICE);
         a5.addBid(new BidTransaction("b18", "a5", "u_s3", "Sarah K.", 45000, now.minusDays(1)));
         a5.addBid(new BidTransaction("b19", "a5", "u_s1", "James T.", 55000, now.minusHours(20)));
         a5.addBid(new BidTransaction("b20", "a5", "u_s3", "Sarah K.", 67500, now.minusHours(10)));
 
         // Auction 8: Pokemon booster box — listed by James, 4 bids
         Auction a8 = new Auction("a8", pokemon, "u_s1", "James T.",
-                5000, now.minusDays(4), now.plusDays(2).plusHours(14));
+                5000, now.minusDays(4), now.plusDays(2).plusHours(14),ValidatorType.STANDARD);
         a8.addBid(new BidTransaction("b30", "a8", "u_s3", "Sarah K.", 5000, now.minusDays(4)));
         a8.addBid(new BidTransaction("b31", "a8", "u_demo", "Alex M.", 6500, now.minusDays(3)));
         a8.addBid(new BidTransaction("b32", "a8", "u_s2", "Mike R.", 7800, now.minusDays(2)));

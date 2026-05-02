@@ -2,12 +2,11 @@ package com.adjuge.model;
 
 import com.adjuge.exception.AuctionClosedException;
 import com.adjuge.exception.InvalidBidException;
-import com.adjuge.pattern.AuctionObserver;
-import com.adjuge.pattern.AuctionSubject;
-import com.adjuge.pattern.StandardBidValidator;
+import com.adjuge.pattern.*;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -37,7 +36,7 @@ public class Auction implements AuctionSubject {
     private final LocalDateTime startTime;
 
     /** When bidding ends. */
-    private final LocalDateTime endTime;
+    private LocalDateTime endTime;
 
     /** Ordered list of all bids placed on this auction. */
     private final List<BidTransaction> bids;
@@ -48,7 +47,7 @@ public class Auction implements AuctionSubject {
     /** The user ID of the current highest bidder (null if no bids yet). */
     private String highestBidderId;
 
-    private StandardBidValidator validator;
+    private final BidValidationStrategy validator;
 
     /**
      * List of observers watching this auction.
@@ -56,8 +55,7 @@ public class Auction implements AuctionSubject {
      */
     private final List<AuctionObserver> observers;
 
-    public Auction(String id, Item item, String sellerId, String sellerName,
-                   double startPrice, LocalDateTime startTime, LocalDateTime endTime) {
+    public Auction(String id, Item item, String sellerId, String sellerName, double startPrice, LocalDateTime startTime, LocalDateTime endTime, ValidatorType validatorType ) {
         this.id = id;
         this.item = item;
         this.sellerId = sellerId;
@@ -69,6 +67,7 @@ public class Auction implements AuctionSubject {
         this.highestBidderId = null;
         this.bids = new ArrayList<>();
         this.observers = new CopyOnWriteArrayList<>();
+        this.validator = BidValidatorFactory.getValidator(validatorType);
     }
 
     // ── Getters ──────────────────────────────────────────────────────────
@@ -114,6 +113,10 @@ public class Auction implements AuctionSubject {
         return highestBidderId;
     }
 
+    public BidValidationStrategy getValidator() {
+        return validator;
+    }
+
     // ── State management ─────────────────────────────────────────────────
 
     private void setState(AuctionState newState) {
@@ -126,7 +129,7 @@ public class Auction implements AuctionSubject {
         if (this.state != AuctionState.OPEN) {
             throw new IllegalStateException("Can only start an auction that is in the OPEN state.");
         }
-        this.state = AuctionState.RUNNING;
+        setState(AuctionState.RUNNING);
         System.out.println("Auction " + this.id + " has started!");
     }
 
@@ -135,7 +138,7 @@ public class Auction implements AuctionSubject {
         if (this.state != AuctionState.RUNNING) {
             throw new IllegalStateException("Can only finish an auction that is in the RUNNING state.");
         }
-        this.state = AuctionState.FINISHED;
+        setState(AuctionState.FINISHED);
         System.out.println("Auction " + this.id + " has finished, waiting for payment.");
     }
 
@@ -144,7 +147,7 @@ public class Auction implements AuctionSubject {
         if (this.state != AuctionState.FINISHED) {
             throw new IllegalStateException("Must wait for the auction to finish before marking as paid.");
         }
-        this.state = AuctionState.PAID;
+        setState(AuctionState.PAID);
         System.out.println("Auction " + this.id + " has been paid.");
     }
 
@@ -153,7 +156,7 @@ public class Auction implements AuctionSubject {
         if (this.state == AuctionState.PAID) {
             throw new IllegalStateException("Cannot cancel a paid auction.");
         }
-        this.state = AuctionState.CANCELED;
+        setState(AuctionState.CANCELED);
         System.out.println("Auction " + this.id + " has been canceled.");
     }
 
@@ -172,59 +175,6 @@ public class Auction implements AuctionSubject {
         notifyNewBid(tx);
     }
 
-    public synchronized BidTransaction placeBid(Auction auction, User bidder, double amount)
-            throws InvalidBidException, AuctionClosedException {
-
-        if (auction.getState() != AuctionState.RUNNING) {
-            throw new AuctionClosedException("Phiên đấu giá chưa mở");
-        }
-
-        // --- Check 2: Has the auction's end time passed? ---
-        if (auction.isExpired()) {
-            // Transition the auction to FINISHED since it has expired
-            auction.setState(AuctionState.FINISHED);
-            throw new AuctionClosedException("Phiên đấu giá đã kết thúc");
-        }
-
-        // Rule 1: You cannot bid on your own auction (conflict of interest)
-        if (bidder.getId().equals(auction.getSellerId())) {
-            throw new InvalidBidException("You cannot bid on your own auction.");
-        }
-
-        // Rule 2: Check if the user's account type allows bidding
-        // This uses polymorphism — canBid() returns different results for
-        // Bidder, Seller, and Admin subclasses of User
-        if (!(bidder instanceof Biddable)) {
-            throw new InvalidBidException(
-                    "Your account type (" + bidder.getRole() + ") cannot place bids."
-            );
-        }
-
-            validator.validate(auction, amount);
-
-            // Generate a unique transaction ID like "tx_3fa85f64"
-            String txId = "tx_" + UUID.randomUUID().toString().substring(0, 8);
-
-            // Format the bidder's name for display (e.g., "John D.")
-            String bidderName = bidder.getFirstName() + " " + bidder.getLastName().charAt(0) + ".";
-
-            // Create the bid transaction record
-            BidTransaction tx = new BidTransaction(
-                    txId,
-                    auction.getId(),
-                    bidder.getId(),
-                    bidderName,
-                    amount,
-                    LocalDateTime.now()
-            );
-
-            // Record the bid on the auction
-            // Auction.addBid() updates the currentHighestBid and notifies observers
-            auction.addBid(tx);
-
-            return tx;
-        }
-
     // ── Time utilities ───────────────────────────────────────────────────
 
     /**
@@ -232,8 +182,18 @@ public class Auction implements AuctionSubject {
      *
      * @return true if the current time is after endTime
      */
+    public boolean isStarted() {return !(this.state == AuctionState.OPEN);}
+
     public boolean isExpired() {
         return endTime.isBefore(LocalDateTime.now());
+    }
+
+    public void applyAntiSniping() {
+        LocalDateTime currentTime = LocalDateTime.now();
+        long secondsRemaining = ChronoUnit.SECONDS.between(currentTime, this.endTime);
+        if  (secondsRemaining < 10) {
+            this.endTime = this.endTime.plusSeconds(60);
+        }
     }
 
     /**

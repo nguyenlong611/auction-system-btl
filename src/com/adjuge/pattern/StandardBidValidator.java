@@ -2,7 +2,6 @@ package com.adjuge.pattern;
 
 import com.adjuge.exception.InvalidBidException;
 import com.adjuge.model.Auction;
-import com.adjuge.model.User;
 import com.adjuge.util.TimeUtil;
 
 public class StandardBidValidator implements BidValidationStrategy {
