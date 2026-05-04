@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Adjuge — Project Overview</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Inter', sans-serif; background: #f8f9fa; color: #1a1a2e; line-height: 1.7; padding: 2rem; max-width: 1100px; margin: 0 auto; }
+  h1 { font-size: 2rem; margin-bottom: .5rem; color: #0d1b2a; }
+  h2 { font-size: 1.4rem; margin: 2.5rem 0 1rem; color: #0d1b2a; border-bottom: 2px solid #c9a84c; padding-bottom: .4rem; }
+  h3 { font-size: 1.1rem; margin: 1.5rem 0 .5rem; color: #243b55; }
+  p { margin-bottom: .8rem; }
+  .subtitle { color: #666; font-size: .95rem; margin-bottom: 2rem; }
+  .box { background: #fff; border: 1px solid #e0e0e0; border-radius: 12px; padding: 1.5rem; margin: 1rem 0; }
+  .box.gold { border-left: 4px solid #c9a84c; }
+  .box.blue { border-left: 4px solid #3b82f6; }
+  .box.green { border-left: 4px solid #10b981; }
+  .box.red { border-left: 4px solid #ef4444; }
+  .box.purple { border-left: 4px solid #8b5cf6; }
+  .box-title { font-weight: 700; font-size: 1rem; margin-bottom: .5rem; }
+  .tree { font-family: 'Courier New', monospace; font-size: .85rem; background: #1a1a2e; color: #e0e0e0; padding: 1.25rem; border-radius: 8px; overflow-x: auto; line-height: 1.6; }
+  .tree .gold { color: #c9a84c; font-weight: bold; }
+  .tree .green { color: #10b981; }
+  .tree .blue { color: #60a5fa; }
+  .tree .red { color: #f87171; }
+  .tree .dim { color: #6b7280; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1rem 0; }
+  .badge { display: inline-block; padding: .15rem .6rem; border-radius: 50px; font-size: .75rem; font-weight: 600; }
+  .badge.pattern { background: #fef3c7; color: #92400e; }
+  .badge.oop { background: #dbeafe; color: #1e40af; }
+  table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: .9rem; }
+  th { background: #1a1a2e; color: #fff; padding: .6rem .8rem; text-align: left; font-weight: 600; font-size: .8rem; }
+  td { padding: .55rem .8rem; border-bottom: 1px solid #e5e7eb; }
+  tr:hover td { background: #f3f4f6; }
+  code { background: #f1f5f9; padding: .15rem .4rem; border-radius: 4px; font-size: .85rem; font-family: 'Courier New', monospace; }
+  .callout { background: #fffbeb; border: 1px solid #fbbf24; border-radius: 8px; padding: 1rem 1.25rem; margin: 1.5rem 0; }
+  .callout-title { font-weight: 700; color: #92400e; margin-bottom: .3rem; }
+  .flow { display: flex; align-items: center; gap: .5rem; flex-wrap: wrap; margin: .5rem 0; }
+  .flow-item { background: #1a1a2e; color: #fff; padding: .3rem .8rem; border-radius: 6px; font-size: .82rem; font-weight: 500; }
+  .flow-arrow { color: #c9a84c; font-weight: bold; font-size: 1.1rem; }
+  .num { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; background: #c9a84c; color: #fff; border-radius: 50%; font-size: .75rem; font-weight: 700; margin-right: .4rem; flex-shrink: 0; }
+  pre.mermaid { background: #fff; border: 1px solid #e0e0e0; border-radius: 12px; padding: 1.5rem; margin: 1rem 0 2rem; overflow-x: auto; line-height: 1.4; }
+  h3 { font-size: 1rem; margin: 2rem 0 .5rem; color: #374151; }
+  @media print { body { padding: 0; } .box { break-inside: avoid; } }
+  @page { margin: 1.5cm; }
+</style>
+</head>
+<body>
+
+<h1>Adjuge — Project Overview</h1>
+<p class="subtitle">Online Auction System &bull; JavaFX &bull; 32 Java files &bull; 6 packages</p>
+
+<!-- ============================================================ -->
+<h2>1. The Big Picture (30-second version)</h2>
+
+<div class="box gold">
+  <div class="box-title">What does this app do?</div>
+  <p>Users can <strong>browse auctions</strong>, <strong>sign in</strong>, <strong>place bids</strong>, and <strong>list items for sale</strong>. When an auction's timer runs out, the highest bidder wins. Think of it like a simplified eBay.</p>
+</div>
+
+<h3>How it's structured (MVC Pattern)</h3>
+<div class="flow">
+  <span class="flow-item">User clicks button</span>
+  <span class="flow-arrow">&rarr;</span>
+  <span class="flow-item">FXML (View)</span>
+  <span class="flow-arrow">&rarr;</span>
+  <span class="flow-item">Controller</span>
+  <span class="flow-arrow">&rarr;</span>
+  <span class="flow-item">Service (Logic)</span>
+  <span class="flow-arrow">&rarr;</span>
+  <span class="flow-item">DataStore (Data)</span>
+</div>
+<p style="margin-top:.8rem; font-size:.9rem; color:#555;">That's it. Every action in the app follows this flow. The <strong>View</strong> shows things, the <strong>Controller</strong> handles clicks, the <strong>Service</strong> does the logic, and the <strong>DataStore</strong> holds all the data.</p>
+
+<!-- ============================================================ -->
+<h2>2. Package Map (6 folders)</h2>
+
+<table>
+  <tr><th>Package</th><th>What's inside</th><th>Why it exists</th></tr>
+  <tr><td><code>model/</code></td><td>16 files — Entity, Item types, User types, Auction, etc.</td><td>The <strong>data</strong> — what things ARE</td></tr>
+  <tr><td><code>controller/</code></td><td>1 file — BiddingController</td><td>Connects UI buttons to logic</td></tr>
+  <tr><td><code>service/</code></td><td>4 files — Auth, Auction, Bid, Timer</td><td>The <strong>logic</strong> — what things DO</td></tr>
+  <tr><td><code>pattern/</code></td><td>5 files — DataStore, Factory, Observer, Strategy</td><td>Design patterns</td></tr>
+  <tr><td><code>exception/</code></td><td>4 files — Custom error types</td><td>Error handling</td></tr>
+  <tr><td><code>util/</code></td><td>1 file — TimeUtil</td><td>Formatting helpers</td></tr>
+</table>
+
+<!-- ============================================================ -->
+<h2>Full Architecture & Class Diagram</h2>
+<p>Complete UML diagram — all 37 Java classes, 7 packages, 6 design patterns.</p>
+
+<div class="box" style="padding:.5rem; font-size:.85rem; margin-bottom:1rem;">
+  <strong>Cách đọc sơ đồ:</strong> &nbsp;
+  <span style="color:#D97706;">&#9644;</span> Nét liền + tam giác rỗng = <strong>Kế thừa</strong> (extends) &nbsp;|&nbsp;
+  <span style="color:#7C3AED;">&#9644;&#9644;</span> Nét đứt + tam giác rỗng = <strong>Triển khai</strong> (implements) &nbsp;|&nbsp;
+  <span style="color:#1e293b;">&#9670;&#9644;</span> Hình thoi đặc = <strong>Bao hàm</strong> (has-a) &nbsp;|&nbsp;
+  <span style="color:#64748b;">&#9644;&#9654;</span> Mũi tên = <strong>Phụ thuộc</strong> (depends on)
+</div>
+
+<!-- ========== DIAGRAM 1: Architecture Overview ========== -->
+<h3>Architecture Overview (MVC + DAO)</h3>
+<pre class="mermaid">
+graph TD
+  subgraph VIEW ["🖥️ VIEW LAYER"]
+    FXML["bidding.fxml\n5 Views · 40+ Controls"]
+    CSS["bidding.css\nDark Theme"]
+  end
+
+  subgraph CTRL ["🎮 CONTROLLER"]
+    BC["BiddingController\nimplements Initializable, AuctionObserver\nonLogin · onBid · onSearch · onCreateAuction"]
+  end
+
+  subgraph SVC ["⚙️ SERVICE LAYER"]
+    AS["AuthService\nlogin · register"]
+    AUS["AuctionService\nsearch · create · getActive"]
+    BS["BidService\nplaceBid — synchronized"]
+    ATS["AuctionTimerService\nScheduledExecutor 1s daemon"]
+  end
+
+  subgraph PAT ["🏗️ DESIGN PATTERNS"]
+    DS["🔒 DataStore\n«singleton»\ngetInstance · ConcurrentHashMap"]
+    IF["🏭 ItemFactory\n«factory method»\ncreateItem(Category) → Item subtype"]
+    AO["👁️ AuctionObserver\n«interface»\nonNewBid · onStateChange"]
+    ASU["📢 AuctionSubject\n«interface»\naddObserver · notify"]
+    BVS["📐 BidValidationStrategy\n«interface»\nvalidate(Auction, User, amount)"]
+  end
+
+  subgraph DAO ["🗄️ DAO LAYER"]
+    DM["🔒 DatabaseManager\n«singleton»\nSQLite · bidvault.db"]
+    UD["UserDAO"]
+    ID["ItemDAO"]
+    AD["AuctionDAO"]
+    BD["BidDAO"]
+  end
+
+  FXML --> BC
+  CSS -.-> FXML
+  BC --> AS
+  BC --> AUS
+  BC --> BS
+  BC -.->|implements| AO
+  BS --> DS
+  AS --> DS
+  AUS --> DS
+  ATS --> DS
+  BS -.->|uses| BVS
+  DS --> UD
+  DS --> AD
+  DS --> BD
+  UD --> DM
+  ID --> DM
+  AD --> DM
+  BD --> DM
+  AD --> ID
+  AD --> BD
+
+  style VIEW fill:#E0E7FF,stroke:#4F46E5,color:#1e293b
+  style CTRL fill:#F3E8FF,stroke:#9333EA,color:#1e293b
+  style SVC fill:#D1FAE5,stroke:#059669,color:#1e293b
+  style PAT fill:#FFFBEB,stroke:#D97706,color:#1e293b
+  style DAO fill:#FFF7ED,stroke:#EA580C,color:#1e293b
+</pre>
+
+<!-- ========== DIAGRAM 2: Class Hierarchy (Inheritance) ========== -->
+<h3>Inheritance Hierarchy — Entity Tree</h3>
+<pre class="mermaid">
+classDiagram
+  class Entity {
+    &lt;&lt;abstract&gt;&gt;
+    #String id
+    #LocalDateTime createdAt
+    +printInfo()* String
+    +getDisplayName()* String
+  }
+
+  class Item {
+    &lt;&lt;abstract&gt;&gt;
+    #String name
+    #double startPrice
+    #String condition
+    #Category category
+    +getCategoryLabel()* String
+    +getItemSpecifics()* String
+  }
+
+  class User {
+    &lt;&lt;abstract&gt;&gt;
+    #String firstName
+    #String lastName
+    #String email
+    +getRole()* String
+    +canBid()* boolean
+    +canSell()* boolean
+    +canManageUsers()* boolean
+  }
+
+  class Electronics {
+    -String brand
+    -String model
+    -int warrantyMonths
+    +getCategoryLabel() "ELECTRONICS"
+  }
+
+  class Art {
+    -String artist
+    -int year
+    -String medium
+    +getCategoryLabel() "ART"
+  }
+
+  class Vehicle {
+    -int yearMade
+    -String make
+    -int mileage
+    +getCategoryLabel() "VEHICLES"
+  }
+
+  class Fashion {
+    -String brand
+    -String material
+    -String size
+    +getCategoryLabel() "FASHION"
+  }
+
+  class Antique {
+    -String era
+    -String origin
+    -int approximateAge
+    +getCategoryLabel() "ANTIQUES"
+  }
+
+  class MusicalInstrument {
+    -String brand
+    -int yearMade
+    -String instrumentType
+    +getCategoryLabel() "MUSICAL INSTRUMENTS"
+  }
+
+  class Bidder {
+    +getRole() "BIDDER"
+    +canBid() true
+    +canSell() false
+    +canManageUsers() false
+  }
+
+  class Seller {
+    +getRole() "SELLER"
+    +canBid() true
+    +canSell() true
+    +canManageUsers() false
+  }
+
+  class Admin {
+    +getRole() "ADMIN"
+    +canBid() false
+    +canSell() false
+    +canManageUsers() true
+  }
+
+  Entity <|-- Item
+  Entity <|-- User
+  Item <|-- Electronics
+  Item <|-- Art
+  Item <|-- Vehicle
+  Item <|-- Fashion
+  Item <|-- Antique
+  Item <|-- MusicalInstrument
+  User <|-- Bidder
+  User <|-- Seller
+  User <|-- Admin
+</pre>
+
+<!-- ========== DIAGRAM 3: Auction & Design Patterns ========== -->
+<h3>Auction Core + Design Patterns</h3>
+<pre class="mermaid">
+classDiagram
+  class AuctionSubject {
+    &lt;&lt;interface&gt;&gt;
+    +addObserver(AuctionObserver)
+    +removeObserver(AuctionObserver)
+    +notifyNewBid(BidTransaction)
+    +notifyStateChange(old, new)
+  }
+
+  class AuctionObserver {
+    &lt;&lt;interface&gt;&gt;
+    +onNewBid(Auction, BidTransaction)
+    +onStateChange(Auction, old, new)
+  }
+
+  class BidValidationStrategy {
+    &lt;&lt;interface&gt;&gt;
+    +validate(Auction, User, double)
+  }
+
+  class Auction {
+    -Item item
+    -String sellerId
+    -AuctionState state
+    -List~BidTransaction~ bids
+    -List~AuctionObserver~ observers
+    -double currentHighestBid
+    +addBid(BidTransaction)
+    +setState(AuctionState)
+    +isExpired() boolean
+    +getTimeRemaining() Duration
+  }
+
+  class BidTransaction {
+    -String id
+    -String auctionId
+    -String bidderId
+    -String bidderName
+    -double amount
+    -LocalDateTime timestamp
+  }
+
+  class AuctionState {
+    &lt;&lt;enumeration&gt;&gt;
+    OPEN
+    RUNNING
+    FINISHED
+    PAID
+    CANCELED
+  }
+
+  class Category {
+    &lt;&lt;enumeration&gt;&gt;
+    ELECTRONICS
+    ART_COLLECTIBLES
+    VEHICLES
+    FASHION
+    ANTIQUES
+    MUSICAL_INSTRUMENTS
+    ...
+  }
+
+  class BiddingController {
+    &lt;&lt;controller&gt;&gt;
+    -AuthService authService
+    -AuctionService auctionService
+    -BidService bidService
+    +onNewBid(Auction, Bid)
+    +onStateChange(Auction, old, new)
+    +initialize()
+  }
+
+  class BidService {
+    -BidValidationStrategy validator
+    +placeBid(Auction, User, double)
+  }
+
+  class StandardBidValidator {
+    +validate(Auction, User, double)
+  }
+
+  class DataStore {
+    &lt;&lt;singleton&gt;&gt;
+    -static DataStore instance
+    -Map auctions
+    -Map users
+    +getInstance()$ DataStore
+    +addAuction(Auction)
+    +addUser(User)
+    +saveBid(BidTransaction, Auction)
+  }
+
+  class ItemFactory {
+    &lt;&lt;factory&gt;&gt;
+    +createItem(Category, ...)$ Item
+  }
+
+  class DatabaseManager {
+    &lt;&lt;singleton&gt;&gt;
+    -static DatabaseManager instance
+    -Connection connection
+    +getInstance()$ DatabaseManager
+    +getConnection() Connection
+    +isEmpty() boolean
+    +close()
+  }
+
+  AuctionSubject <|.. Auction : implements
+  AuctionObserver <|.. BiddingController : implements
+  BidValidationStrategy <|.. StandardBidValidator : implements
+
+  Auction *-- Item : has-a item
+  Auction *-- "0..*" BidTransaction : has-many bids
+  Auction --> AuctionState : state
+  Auction o-- "0..*" AuctionObserver : observers
+  Item --> Category : category
+
+  BidService --> BidValidationStrategy : uses
+  BidService --> DataStore : persists via
+  StandardBidValidator --* BidService : inner class
+
+  BiddingController --> BidService : delegates
+  BiddingController --> DataStore : reads
+
+  DataStore --> DatabaseManager : persists to
+  ItemFactory --> Item : creates
+
+  class BidVaultException {
+    &lt;&lt;checked exception&gt;&gt;
+    +String message
+  }
+  class InvalidBidException
+  class AuctionClosedException
+  class AuthenticationException
+
+  BidVaultException <|-- InvalidBidException
+  BidVaultException <|-- AuctionClosedException
+  BidVaultException <|-- AuthenticationException
+</pre>
+
+<!-- ========== DIAGRAM 4: DAO Layer ========== -->
+<h3>DAO Persistence Layer</h3>
+<pre class="mermaid">
+classDiagram
+  class DatabaseManager {
+    &lt;&lt;singleton&gt;&gt;
+    -Connection connection
+    +getInstance()$ DatabaseManager
+    +getConnection() Connection
+    +createTables()
+    +isEmpty() boolean
+    +close()
+  }
+
+  class UserDAO {
+    +insert(User)
+    +findByEmail(String) User
+    +findById(String) User
+    +findAll() List~User~
+    -buildUser(ResultSet) User
+  }
+
+  class ItemDAO {
+    +insert(Item)
+    +findById(String) Item
+    -buildItem(ResultSet) Item
+  }
+
+  class AuctionDAO {
+    -ItemDAO itemDAO
+    -BidDAO bidDAO
+    +insert(Auction)
+    +update(Auction)
+    +findById(String) Auction
+    +findAll() List~Auction~
+    +delete(String)
+    -buildAuction(ResultSet) Auction
+  }
+
+  class BidDAO {
+    +insert(BidTransaction)
+    +findByAuctionId(String) List~BidTransaction~
+  }
+
+  class DataStore {
+    &lt;&lt;singleton&gt;&gt;
+    -UserDAO userDAO
+    -AuctionDAO auctionDAO
+    -BidDAO bidDAO
+    +seedData()
+    +loadFromDatabase()
+    +saveBid()
+    +updateAuction()
+  }
+
+  UserDAO --> DatabaseManager : getConnection()
+  ItemDAO --> DatabaseManager : getConnection()
+  AuctionDAO --> DatabaseManager : getConnection()
+  BidDAO --> DatabaseManager : getConnection()
+  AuctionDAO --> ItemDAO : loads Item
+  AuctionDAO --> BidDAO : loads Bids
+  DataStore --> UserDAO : uses
+  DataStore --> AuctionDAO : uses
+  DataStore --> BidDAO : uses
+
+  note for UserDAO "buildUser() uses polymorphism:\nswitch(role) → Bidder / Seller / Admin"
+  note for ItemDAO "buildItem() uses polymorphism:\nswitch(category) → Electronics / Art / ..."
+</pre>
+
+
+
+<!-- ============================================================ -->
+<h2>3. The Class Hierarchy (THE EXAM QUESTION)</h2>
+
+<p>This is what the teacher will ask about. There are <strong>two inheritance trees</strong>, both starting from <code>Entity</code>:</p>
+
+<pre class="tree">
+<span class="gold">Entity</span> <span class="dim">(abstract — has id, createdAt, printInfo(), getDisplayName())</span>
+│
+├── <span class="gold">Item</span> <span class="dim">(abstract — has name, price, image, condition)</span>
+│   │   <span class="dim">abstract methods: getCategoryLabel(), getItemSpecifics()</span>
+│   │
+│   ├── <span class="green">Electronics</span>  <span class="dim">— brand, model, warranty      → "ELECTRONICS"</span>
+│   ├── <span class="green">Art</span>           <span class="dim">— artist, year, medium       → "ART &amp; COLLECTIBLES"</span>
+│   ├── <span class="green">Vehicle</span>       <span class="dim">— make, model, mileage       → "VEHICLES"</span>
+│   ├── <span class="green">Fashion</span>       <span class="dim">— brand, material, size      → "FASHION"</span>
+│   ├── <span class="green">Antique</span>       <span class="dim">— era, origin, age           → "ANTIQUES"</span>
+│   └── <span class="green">MusicalInstrument</span> <span class="dim">— brand, year, type     → "MUSICAL INSTRUMENTS"</span>
+│
+└── <span class="gold">User</span> <span class="dim">(abstract — has name, email, password)</span>
+    │   <span class="dim">abstract methods: getRole(), canBid(), canSell(), canManageUsers()</span>
+    │
+    ├── <span class="blue">Bidder</span>  <span class="dim">— canBid()=true,  canSell()=false, canManageUsers()=false</span>
+    ├── <span class="blue">Seller</span>  <span class="dim">— canBid()=true,  canSell()=true,  canManageUsers()=false</span>
+    └── <span class="blue">Admin</span>   <span class="dim">— canBid()=false, canSell()=false, canManageUsers()=true</span>
+</pre>
+
+<div class="callout">
+  <div class="callout-title">How to explain this to your team:</div>
+  <p><strong>"Entity is the grandparent. Item and User are the parents. Everything else is a child."</strong></p>
+  <p>Every child <em>inherits</em> fields from its parent (like <code>id</code>, <code>name</code>) and <em>overrides</em> abstract methods to give its own answer. That's <strong>inheritance + polymorphism</strong>.</p>
+</div>
+
+<!-- ============================================================ -->
+<h2>4. Polymorphism — The 5 Examples to Memorize</h2>
+
+<p>Polymorphism = <strong>same method name, different behavior depending on the object type</strong>.</p>
+
+<div class="box blue">
+  <div class="box-title">Example 1: getCategoryLabel()</div>
+  <p>Declared in <code>Item</code> (abstract). Each subclass returns a different string:</p>
+<pre style="background:#f1f5f9; padding:.8rem; border-radius:6px; font-size:.82rem; margin-top:.5rem;">
+Item item = new Electronics(...);
+item.getCategoryLabel();  // → "ELECTRONICS"
+
+Item item2 = new Art(...);
+item2.getCategoryLabel(); // → "ART & COLLECTIBLES"
+
+// Same method, different result. That's polymorphism.
+</pre>
+</div>
+
+<div class="box blue">
+  <div class="box-title">Example 2: canBid()</div>
+  <p>Declared in <code>User</code> (abstract). Each user type answers differently:</p>
+<pre style="background:#f1f5f9; padding:.8rem; border-radius:6px; font-size:.82rem; margin-top:.5rem;">
+User user = new Bidder(...);
+user.canBid();  // → true
+
+User user2 = new Admin(...);
+user2.canBid(); // → false
+
+// We call the SAME method on a User variable,
+// but the answer depends on the ACTUAL type.
+</pre>
+</div>
+
+<div class="box blue">
+  <div class="box-title">Example 3: printInfo()</div>
+  <p>Every single class overrides this. You can loop through a list and get different outputs:</p>
+<pre style="background:#f1f5f9; padding:.8rem; border-radius:6px; font-size:.82rem; margin-top:.5rem;">
+List&lt;Entity&gt; all = List.of(new Electronics(...), new Bidder(...), new Art(...));
+for (Entity e : all) {
+    System.out.println(e.printInfo());  // Different output each time!
+}
+</pre>
+</div>
+
+<div class="box blue">
+  <div class="box-title">Example 4: ItemFactory (Factory Pattern + Polymorphism)</div>
+  <p>The factory returns <code>Item</code>, but creates the correct subtype:</p>
+<pre style="background:#f1f5f9; padding:.8rem; border-radius:6px; font-size:.82rem; margin-top:.5rem;">
+Item item = ItemFactory.createItem(Category.ELECTRONICS, "MacBook", ...);
+// item is actually an Electronics object
+// but we hold it in an Item variable — polymorphism!
+</pre>
+</div>
+
+<div class="box blue">
+  <div class="box-title">Example 5: Auction holds Item (any subtype)</div>
+  <p>The <code>Auction</code> class has a field <code>Item item</code>. It doesn't care if it's Electronics, Art, or Vehicle:</p>
+<pre style="background:#f1f5f9; padding:.8rem; border-radius:6px; font-size:.82rem; margin-top:.5rem;">
+Auction auction = new Auction(..., new Vehicle(...), ...);
+auction.getItem().getCategoryLabel();    // → "VEHICLES"
+auction.getItem().getItemSpecifics();    // → "1965 Ford Mustang | 45,000 mi"
+
+// The Auction doesn't know or care what type of Item it holds.
+// It just calls the methods. The Item handles the rest.
+</pre>
+</div>
+
+<!-- ============================================================ -->
+<h2>5. Design Patterns — 6 Patterns Used</h2>
+
+<div class="grid">
+  <div class="box green">
+    <div class="box-title"><span class="badge pattern">SINGLETON</span> DataStore</div>
+    <p><strong>What:</strong> Only ONE instance exists in the whole app.</p>
+    <p><strong>Where:</strong> <code>DataStore.getInstance()</code></p>
+    <p><strong>Why:</strong> All services need to access the same data. If we had multiple copies, data would go out of sync.</p>
+    <p><strong>How to spot:</strong> Private constructor + static <code>getInstance()</code> method.</p>
+  </div>
+
+  <div class="box green">
+    <div class="box-title"><span class="badge pattern">FACTORY METHOD</span> ItemFactory</div>
+    <p><strong>What:</strong> Creates the right Item subtype based on a category.</p>
+    <p><strong>Where:</strong> <code>ItemFactory.createItem(category, ...)</code></p>
+    <p><strong>Why:</strong> The controller doesn't need to know which class to use. It just says "make me an item in this category" and the factory decides.</p>
+  </div>
+
+  <div class="box green">
+    <div class="box-title"><span class="badge pattern">OBSERVER</span> AuctionObserver</div>
+    <p><strong>What:</strong> When a bid is placed, all watchers get notified automatically.</p>
+    <p><strong>Where:</strong> <code>Auction.addObserver()</code>, <code>BiddingController implements AuctionObserver</code></p>
+    <p><strong>Why:</strong> The UI updates in real-time without polling. When a bid happens, the auction tells the controller, and the controller refreshes the screen.</p>
+  </div>
+
+  <div class="box green">
+    <div class="box-title"><span class="badge pattern">STRATEGY</span> BidValidationStrategy</div>
+    <p><strong>What:</strong> Validation rules are in a separate class that can be swapped.</p>
+    <p><strong>Where:</strong> <code>BidService</code> uses <code>StandardBidValidator</code></p>
+    <p><strong>Why:</strong> If we want different rules (e.g., VIP users can bid lower), we just swap the strategy. No need to change BidService.</p>
+  </div>
+</div>
+
+<div class="grid">
+  <div class="box green">
+    <div class="box-title"><span class="badge pattern">MVC</span> Model-View-Controller</div>
+    <p><strong>What:</strong> Separates the app into three responsibilities.</p>
+    <p><strong>Where:</strong> <code>model/</code> = Model, <code>bidding.fxml</code> + <code>bidding.css</code> = View, <code>BiddingController</code> = Controller</p>
+    <p><strong>Why:</strong> The FXML never touches data. The model never touches UI. The controller connects them. Changing the UI doesn't break the logic.</p>
+  </div>
+
+  <div class="box green">
+    <div class="box-title"><span class="badge pattern">DAO</span> Data Access Object</div>
+    <p><strong>What:</strong> Each database table has its own class for SQL operations.</p>
+    <p><strong>Where:</strong> <code>UserDAO</code>, <code>ItemDAO</code>, <code>AuctionDAO</code>, <code>BidDAO</code></p>
+    <p><strong>Why:</strong> Business logic (DataStore, BidService) never writes raw SQL. It just calls <code>auctionDAO.insert(a)</code>. If we switch from SQLite to MySQL, only the DAO classes change.</p>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<h2>6. How Key Features Work</h2>
+
+<div class="box gold">
+  <div class="box-title"><span class="num">1</span> User clicks "Sign In"</div>
+  <div class="flow">
+    <span class="flow-item">Button click</span>
+    <span class="flow-arrow">&rarr;</span>
+    <span class="flow-item">Controller.onLogin()</span>
+    <span class="flow-arrow">&rarr;</span>
+    <span class="flow-item">AuthService.login(email, pass)</span>
+    <span class="flow-arrow">&rarr;</span>
+    <span class="flow-item">DataStore.getUserByEmail()</span>
+  </div>
+  <p style="font-size:.85rem; color:#666; margin-top:.4rem;">If password matches → store user in session, go to home. If not → show error message.</p>
+</div>
+
+<div class="box gold">
+  <div class="box-title"><span class="num">2</span> User places a bid</div>
+  <div class="flow">
+    <span class="flow-item">Click "Bid"</span>
+    <span class="flow-arrow">&rarr;</span>
+    <span class="flow-item">Controller.onPlaceBid()</span>
+    <span class="flow-arrow">&rarr;</span>
+    <span class="flow-item">BidService.placeBid()</span>
+    <span class="flow-arrow">&rarr;</span>
+    <span class="flow-item">synchronized{validate + save}</span>
+    <span class="flow-arrow">&rarr;</span>
+    <span class="flow-item">Auction.notifyObservers()</span>
+    <span class="flow-arrow">&rarr;</span>
+    <span class="flow-item">Controller.onNewBid() → refresh UI</span>
+  </div>
+  <p style="font-size:.85rem; color:#666; margin-top:.4rem;"><code>synchronized</code> prevents two people from bidding at the exact same time (race condition).</p>
+</div>
+
+<div class="box gold">
+  <div class="box-title"><span class="num">3</span> User creates a listing</div>
+  <div class="flow">
+    <span class="flow-item">Fill form + click "List"</span>
+    <span class="flow-arrow">&rarr;</span>
+    <span class="flow-item">Controller.onCreateAuction()</span>
+    <span class="flow-arrow">&rarr;</span>
+    <span class="flow-item">ItemFactory.createItem(category)</span>
+    <span class="flow-arrow">&rarr;</span>
+    <span class="flow-item">AuctionService.createAuction()</span>
+  </div>
+  <p style="font-size:.85rem; color:#666; margin-top:.4rem;">Factory Method creates the right Item subtype (Electronics, Art, etc.) based on the selected category.</p>
+</div>
+
+<div class="box gold">
+  <div class="box-title"><span class="num">4</span> Auction expires automatically</div>
+  <div class="flow">
+    <span class="flow-item">AuctionTimerService (background thread)</span>
+    <span class="flow-arrow">&rarr;</span>
+    <span class="flow-item">Checks every 1 second</span>
+    <span class="flow-arrow">&rarr;</span>
+    <span class="flow-item">If expired → state = FINISHED</span>
+    <span class="flow-arrow">&rarr;</span>
+    <span class="flow-item">Observer notifies UI</span>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<h2>7. OOP Principles Checklist</h2>
+
+<table>
+  <tr><th>Principle</th><th>Where in our code</th><th>One-line explanation</th></tr>
+  <tr>
+    <td><strong>Encapsulation</strong></td>
+    <td>Every class: <code>private</code> fields + <code>public</code> getters</td>
+    <td>Nobody can mess with the data directly. You MUST go through methods.</td>
+  </tr>
+  <tr>
+    <td><strong>Inheritance</strong></td>
+    <td><code>Entity → Item → Electronics</code><br><code>Entity → User → Bidder</code></td>
+    <td>Child classes get all parent fields for free. Electronics has <code>id</code> because Entity has it.</td>
+  </tr>
+  <tr>
+    <td><strong>Polymorphism</strong></td>
+    <td><code>item.getCategoryLabel()</code><br><code>user.canBid()</code><br><code>entity.printInfo()</code></td>
+    <td>Same method call, different behavior. An Art returns "ART", an Electronics returns "ELECTRONICS".</td>
+  </tr>
+  <tr>
+    <td><strong>Abstraction</strong></td>
+    <td><code>abstract class Entity</code><br><code>abstract class Item</code><br><code>interface AuctionObserver</code></td>
+    <td>You can't create an Entity directly. You MUST create a specific type like Bidder or Electronics.</td>
+  </tr>
+</table>
+
+<!-- ============================================================ -->
+<h2>8. Auction State Lifecycle</h2>
+
+<div class="flow" style="justify-content: center; margin: 1.5rem 0;">
+  <span class="flow-item" style="background:#3b82f6;">OPEN</span>
+  <span class="flow-arrow">&rarr;</span>
+  <span class="flow-item" style="background:#10b981;">RUNNING</span>
+  <span class="flow-arrow">&rarr;</span>
+  <span class="flow-item" style="background:#f59e0b; color:#000;">FINISHED</span>
+  <span class="flow-arrow">&rarr;</span>
+  <span class="flow-item" style="background:#10b981;">PAID</span>
+  <span style="margin: 0 .5rem; color:#999;">or</span>
+  <span class="flow-item" style="background:#ef4444;">CANCELED</span>
+</div>
+
+<!-- ============================================================ -->
+<h2>9. Thread Safety (Concurrency)</h2>
+
+<div class="box red">
+  <div class="box-title">The Problem</div>
+  <p>Two people bid at the exact same millisecond. Without protection, both bids could "win" or one could be lost.</p>
+</div>
+
+<div class="box green">
+  <div class="box-title">Our Solution</div>
+  <p>In <code>BidService.placeBid()</code>, we use <code>synchronized(auction)</code>. This means:</p>
+  <ul style="margin-left: 1.5rem; margin-top: .5rem;">
+    <li>Only ONE thread can bid on a specific auction at a time</li>
+    <li>The second bidder waits until the first one finishes</li>
+    <li>Different auctions can still be bid on in parallel (we lock per-auction, not globally)</li>
+  </ul>
+  <p style="margin-top:.5rem;">We also use <code>ConcurrentHashMap</code> in DataStore so multiple threads can read/write users and auctions safely.</p>
+</div>
+
+<!-- ============================================================ -->
+<h2>10. Quick Reference: All 32 Files</h2>
+
+<table>
+  <tr><th>#</th><th>File</th><th>One-line purpose</th></tr>
+  <tr><td>1</td><td><code>BidVaultApp.java</code></td><td>Launches the app, seeds data, starts timer</td></tr>
+  <tr><td>2</td><td><code>Entity.java</code></td><td>Abstract grandparent of everything</td></tr>
+  <tr><td>3</td><td><code>Item.java</code></td><td>Abstract parent of all auction items</td></tr>
+  <tr><td>4</td><td><code>Electronics.java</code></td><td>Item subtype: brand, model, warranty</td></tr>
+  <tr><td>5</td><td><code>Art.java</code></td><td>Item subtype: artist, year, medium</td></tr>
+  <tr><td>6</td><td><code>Vehicle.java</code></td><td>Item subtype: make, model, mileage</td></tr>
+  <tr><td>7</td><td><code>Fashion.java</code></td><td>Item subtype: brand, material, size</td></tr>
+  <tr><td>8</td><td><code>Antique.java</code></td><td>Item subtype: era, origin, age</td></tr>
+  <tr><td>9</td><td><code>MusicalInstrument.java</code></td><td>Item subtype: brand, year, instrument type</td></tr>
+  <tr><td>10</td><td><code>User.java</code></td><td>Abstract parent of all user types</td></tr>
+  <tr><td>11</td><td><code>Bidder.java</code></td><td>User who can bid (canBid=true)</td></tr>
+  <tr><td>12</td><td><code>Seller.java</code></td><td>User who can bid + sell (canSell=true)</td></tr>
+  <tr><td>13</td><td><code>Admin.java</code></td><td>User who manages the system</td></tr>
+  <tr><td>14</td><td><code>Auction.java</code></td><td>Holds an Item + bids + state + observers</td></tr>
+  <tr><td>15</td><td><code>BidTransaction.java</code></td><td>Records one bid (who, how much, when)</td></tr>
+  <tr><td>16</td><td><code>AuctionState.java</code></td><td>Enum: OPEN, RUNNING, FINISHED, PAID, CANCELED</td></tr>
+  <tr><td>17</td><td><code>Category.java</code></td><td>Enum: 9 item categories</td></tr>
+  <tr><td>18</td><td><code>BiddingController.java</code></td><td>Handles ALL button clicks and UI updates</td></tr>
+  <tr><td>19</td><td><code>AuthService.java</code></td><td>Login, register, session management</td></tr>
+  <tr><td>20</td><td><code>AuctionService.java</code></td><td>Search, create, query auctions</td></tr>
+  <tr><td>21</td><td><code>BidService.java</code></td><td>Place bids (thread-safe with synchronized)</td></tr>
+  <tr><td>22</td><td><code>AuctionTimerService.java</code></td><td>Background thread that closes expired auctions</td></tr>
+  <tr><td>23</td><td><code>DataStore.java</code></td><td>Singleton — the one place all data lives</td></tr>
+  <tr><td>24</td><td><code>ItemFactory.java</code></td><td>Factory — creates the right Item subtype</td></tr>
+  <tr><td>25</td><td><code>AuctionObserver.java</code></td><td>Interface: onNewBid(), onStateChange()</td></tr>
+  <tr><td>26</td><td><code>AuctionSubject.java</code></td><td>Interface: addObserver(), removeObserver()</td></tr>
+  <tr><td>27</td><td><code>BidValidationStrategy.java</code></td><td>Interface: validate bid rules (swappable)</td></tr>
+  <tr><td>28</td><td><code>BidVaultException.java</code></td><td>Base custom exception</td></tr>
+  <tr><td>29</td><td><code>InvalidBidException.java</code></td><td>Thrown when bid is too low or invalid</td></tr>
+  <tr><td>30</td><td><code>AuctionClosedException.java</code></td><td>Thrown when bidding on ended auction</td></tr>
+  <tr><td>31</td><td><code>AuthenticationException.java</code></td><td>Thrown on bad login/register</td></tr>
+  <tr><td>32</td><td><code>TimeUtil.java</code></td><td>Date formatting, countdown, currency helper</td></tr>
+</table>
+
+<div class="callout" style="margin-top: 2rem;">
+  <div class="callout-title">Remember: If anyone can't explain ANY part, everyone gets 0.</div>
+  <p>Make sure every team member can explain:</p>
+  <ol style="margin-left: 1.5rem; margin-top: .5rem;">
+    <li>The class hierarchy tree (Section 3)</li>
+    <li>At least 2 polymorphism examples (Section 4)</li>
+    <li>What each design pattern does and WHERE it is (Section 5)</li>
+    <li>The bid flow: click → controller → service → synchronized → observer → UI (Section 6)</li>
+  </ol>
+</div>
+
+<p style="text-align: center; color: #999; margin-top: 3rem; font-size: .8rem;">Adjuge &mdash; Advanced Programming Final Project &mdash; 2026</p>
+
+<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+  mermaid.initialize({
+    startOnLoad: true,
+    theme: 'base',
+    themeVariables: {
+      primaryColor: '#DBEAFE',
+      primaryBorderColor: '#2563EB',
+      primaryTextColor: '#1e293b',
+      secondaryColor: '#FEF3C7',
+      secondaryBorderColor: '#D97706',
+      tertiaryColor: '#EDE9FE',
+      tertiaryBorderColor: '#7C3AED',
+      lineColor: '#64748b',
+      textColor: '#1e293b',
+      fontSize: '14px',
+      fontFamily: 'Inter, Segoe UI, sans-serif',
+      classText: '#1e293b'
+    },
+    flowchart: { curve: 'basis', padding: 15 },
+    classDiagram: { padding: 15 }
+  });
+</script>
+</body>
+</html>
