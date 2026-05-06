@@ -1,56 +1,72 @@
-# ⚡ Adjugé! — Premium Auction Platform
+<div align="center">
+  <img src="resources/preview.png" alt="Adjugé! Logo" width="100%">
+  
+  # ⚡ Adjugé! — Premium Auction Platform
+  **Đồ án Bài tập lớn: Lập trình nâng cao (OOP)**
+</div>
 
-**Adjugé!** là một ứng dụng đấu giá trực tuyến hiện đại được xây dựng bằng JavaFX, tập trung vào trải nghiệm người dùng mượt mà (SPA) và kiến trúc mã nguồn chuẩn hướng đối tượng (OOP).
+## 📖 Giới thiệu
+**Adjugé!** là một hệ thống đấu giá trực tuyến cao cấp (Online Auction System) được xây dựng bằng Java và JavaFX. Dự án mang đến trải nghiệm người dùng mượt mà theo phong cách Single Page Application (SPA), giao diện Dark Mode sang trọng, tích hợp đấu giá thời gian thực và tuân thủ chặt chẽ các nguyên lý Thiết kế Hướng đối tượng (OOP) cũng như Design Patterns hiện đại.
 
-![Demo Screenshot](https://raw.githubusercontent.com/William-Sommers/Bidscape_/main/resources/preview.png) *(Lưu ý: Bạn có thể thay link ảnh demo của mình vào đây)*
+Dự án được phát triển nhằm đáp ứng yêu cầu của bài tập lớn môn Lập trình nâng cao, bao gồm cả các tính năng cốt lõi và các kỹ thuật xử lý nâng cao (Concurrency, Real-time update).
+
+---
 
 ## ✨ Tính năng nổi bật
-
-- **Kiến trúc Single Page Application (SPA):** Chuyển đổi mượt mà giữa các màn hình (Home, Search, Auction Detail, Dashboard) mà không cần load lại cửa sổ.
-- **Hệ thống đấu giá thời gian thực:** Tự động đếm ngược và cập nhật trạng thái phiên đấu giá.
-- **Tìm kiếm & Bộ lọc:** Tìm kiếm sản phẩm theo tên và lọc theo danh mục (Electronics, Art, Vehicles, Fashion...).
-- **Dashboard người dùng:** Quản lý các phiên đang tham gia, lịch sử đặt giá và các sản phẩm đang rao bán.
-- **Thiết kế hiện đại:** Giao diện tối (Dark Mode) với hiệu ứng Glassmorphism và Typography cao cấp.
+* **Trải nghiệm UI/UX Cao cấp:** Giao diện tối sang trọng kết hợp hiệu ứng Glassmorphism, phong cách chữ (Typography) hiện đại và thống kê trực quan ngay từ trang chủ (Explore Auctions, Start Selling, Active Auctions, Registered Users...).
+* **Đấu giá Thời gian thực (Real-time Bidding):** Tự động đếm ngược thời gian và cập nhật giá thầu, người dẫn đầu ngay lập tức mà không cần tải lại trang.
+* **Xử lý Đấu giá Đồng thời (Concurrency Bidding):** Đảm bảo an toàn dữ liệu, tránh xung đột (race condition) và lỗi Lost Update khi nhiều bidder cùng đặt giá ở cùng một phần nghìn giây.
+* **Hệ thống Đa Vai trò:** Quản lý quyền hạn linh hoạt giữa Bidder (Người mua), Seller (Người đăng bán) và Admin.
+* **Tìm kiếm & Phân loại:** Hệ thống phân loại sản phẩm đa dạng (Art, Electronics, Vehicles, Fashion...) kết hợp thanh tìm kiếm thông minh.
 
 ## 🛠 Công nghệ sử dụng
+* **Ngôn ngữ:** Java 17+ (hoặc 21+)
+* **Giao diện:** JavaFX 24 kết hợp Custom CSS (Vanilla CSS)
+* **Cơ sở dữ liệu:** SQLite (kết nối qua JDBC Driver)
+* **Build Tool:** Maven (`pom.xml`) / Script chạy trực tiếp `run.bat`
+* **Kiểm thử (Testing):** JUnit Platform
 
-- **Core:** Java 21+
-- **UI Framework:** JavaFX 24
-- **Database:** SQLite (với JDBC Driver)
-- **Style:** Vanilla CSS (Custom styling cho JavaFX)
-- **Build Tool:** Script chạy trực tiếp (`run.bat`) hỗ trợ tự động compile và cấu hình module-path.
+---
 
-## 🏗 Kiến trúc & Design Patterns
+## 🏗 Kiến trúc Hệ thống & Lập trình Hướng Đối Tượng (OOP)
+Dự án được thiết kế phân lớp chặt chẽ theo mô hình **MVC (Model-View-Controller)** và kiến trúc đa tầng (Controller → Service → DAO) để dễ dàng bảo trì và mở rộng.
 
-Dự án được xây dựng theo mô hình **MVC (Model-View-Controller)** kết hợp với **DAO (Data Access Object)**, áp dụng các mẫu thiết kế kinh điển:
+### 1. Bốn Nguyên lý OOP Cốt lõi
+* **Đóng gói (Encapsulation):** Che giấu logic nội tại và bảo vệ toàn vẹn dữ liệu trong các lớp Thực thể (Entities), chỉ cho phép truy cập qua `Getters/Setters` và các hàm chức năng.
+* **Kế thừa (Inheritance):** Xây dựng cây phân cấp rõ ràng nhằm tái sử dụng mã (Ví dụ: Lớp trừu tượng `Item` → `Electronics`, `Art`, `Vehicle` hoặc `User` → `Bidder`, `Seller`, `Admin`).
+* **Đa hình (Polymorphism):** Kỹ thuật Overriding để tùy biến các phương thức đặc thù của từng loại mặt hàng trên cùng một giao diện (Polymorphic UI rendering).
+* **Trừu tượng (Abstraction):** Áp dụng linh hoạt Abstract Class và Interface định nghĩa các khuôn mẫu hành vi chung (như `Sellable`, `Biddable`).
 
-1.  **Singleton:** Quản lý `DataStore` và `DatabaseManager` để đảm bảo duy nhất một instance trong suốt vòng đời ứng dụng.
-2.  **Observer Pattern:** Cập nhật UI ngay lập tức khi có người đặt giá mới (Real-time bidding).
-3.  **Factory Pattern:** Khởi tạo các loại sản phẩm khác nhau (Electronics, Art, etc.) một cách linh hoạt thông qua `ItemFactory`.
-4.  **Polymorphism:** Tận dụng đa hình để xử lý các thuộc tính đặc thù của từng loại mặt hàng trên cùng một giao diện chung.
-5.  **Strategy Pattern:** (Nếu có) Xử lý các logic tính toán giá hoặc phí đấu giá khác nhau.
+### 2. Áp dụng Design Patterns
+* **Singleton Pattern:** Quản lý kết nối duy nhất của Cơ sở dữ liệu (`DatabaseManager`) và dữ liệu nền tĩnh (`DataStore`), chống lãng phí bộ nhớ.
+* **Observer Pattern:** Trái tim của cơ chế Real-time Update. Khi một `Auction` có sự thay đổi (giá mới, kết thúc thời gian), nó tự động `notify` để cập nhật đồng bộ lên UI của tất cả các Client đang theo dõi.
+* **Factory Method Pattern:** Khởi tạo linh hoạt các đối tượng mặt hàng (`ItemFactory`) dựa trên danh mục (Category) mà người bán lựa chọn.
+* **Strategy Pattern:** Đóng gói và cô lập các thuật toán kiểm tra tính hợp lệ của giá thầu (Bid Validation) để dễ dàng thêm mới các luật lệ đấu giá.
 
-## 📂 Cấu trúc thư mục
-
-- `src/com/adjuge/model`: Định nghĩa các thực thể (Auction, User, Item...).
-- `src/com/adjuge/controller`: Điều khiển logic giao diện.
-- `src/com/adjuge/service`: Xử lý nghiệp vụ (Bidding, Auth, Timer).
-- `src/com/adjuge/dao`: Lớp truy xuất dữ liệu từ SQLite.
-- `resources/`: Chứa file FXML, CSS, Fonts và hình ảnh.
-- `javafx/`: Chứa SDK JavaFX cần thiết để chạy dự án.
+---
 
 ## 🚀 Hướng dẫn khởi chạy
 
-Để chạy dự án trên Windows, bạn chỉ cần thực hiện các bước sau:
+### Cài đặt yêu cầu:
+1. Đảm bảo hệ thống của bạn đã cài đặt **JDK 17** (hoặc mới hơn).
+2. Tải (Clone) mã nguồn về máy.
 
-1.  Đảm bảo bạn đã cài đặt **JDK 21** trở lên.
-2.  Mở thư mục gốc của dự án.
-3.  Chạy file `run.bat`.
+### Chạy ứng dụng bằng Script (Windows):
+Dự án đã tích hợp sẵn script tự động biên dịch và chạy. Bạn chỉ cần nháy đúp chuột vào tệp:
+```cmd
+run.bat
+```
 
-Script sẽ tự động:
-- Compile mã nguồn Java.
-- Copy tài nguyên vào thư mục `out`.
-- Khởi chạy ứng dụng với cấu hình module-path cho JavaFX.
+### Chạy ứng dụng bằng Maven:
+Mở Terminal/Command Prompt tại thư mục gốc của dự án và chạy:
+```bash
+mvn clean compile javafx:run
+```
 
 ---
-*Dự án được thực hiện cho học phần Lập trình hướng đối tượng (OOP).*
+
+## 👥 Nhóm phát triển
+* **Thành viên 1:** [Họ và Tên] - [Mã sinh viên]
+* **Thành viên 2:** [Họ và Tên] - [Mã sinh viên]
+* **Thành viên 3:** [Họ và Tên] - [Mã sinh viên]
+* **Thành viên 4:** [Họ và Tên] - [Mã sinh viên]
