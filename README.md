@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="resources/preview.png" alt="Adjugé! Logo" width="100%">
+  <img src="logo.png" alt="Adjugé! Logo" height="150">
   
   # ⚡ Adjugé! — Premium Auction Platform
   **Đồ án Bài tập lớn: Lập trình nâng cao (OOP)**
