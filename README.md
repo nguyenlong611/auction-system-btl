@@ -64,9 +64,12 @@ mvn clean compile javafx:run
 ```
 
 ---
+### Một số hình ảnh demo về BTL:
+
+<img src="image.png" alt="Adjugé! Logo" height="1000">
 
 ## 👥 Nhóm phát triển
-* **Thành viên 1:** [Họ và Tên] - [Mã sinh viên]
-* **Thành viên 2:** [Họ và Tên] - [Mã sinh viên]
+* **Thành viên 1:** Ninh Đức Hải - 25021747
+* **Thành viên 2:** Nguyễn Hoàng Long - 2502
 * **Thành viên 3:** [Họ và Tên] - [Mã sinh viên]
 * **Thành viên 4:** [Họ và Tên] - [Mã sinh viên]
