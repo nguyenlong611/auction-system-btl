@@ -51,16 +51,33 @@ Dự án được thiết kế phân lớp chặt chẽ theo mô hình **MVC (Mo
 1. Đảm bảo hệ thống của bạn đã cài đặt **JDK 17** (hoặc mới hơn).
 2. Tải (Clone) mã nguồn về máy.
 
-### Chạy ứng dụng bằng Script (Windows):
-Dự án đã tích hợp sẵn script tự động biên dịch và chạy. Bạn chỉ cần nháy đúp chuột vào tệp:
+### Chạy ứng dụng theo Hệ điều hành:
+Dự án đã tích hợp sẵn các script tự động dọn dẹp thư mục build cũ (clean) và chạy ứng dụng cho cả 3 nền tảng. Bạn chỉ cần chạy tệp tương ứng với hệ điều hành của mình:
+
+**1. Windows:**
+Nháy đúp chuột vào tệp `run.bat` hoặc gõ lệnh trong Terminal:
 ```cmd
 run.bat
 ```
 
-### Chạy ứng dụng bằng Maven:
+**2. macOS:**
+Cấp quyền thực thi và chạy tệp `run-macos.command` (có thể nháy đúp chuột từ Finder):
+```bash
+chmod +x run-macos.command
+./run-macos.command
+```
+
+**3. Linux:**
+Cấp quyền thực thi và chạy tệp `run-linux.sh`:
+```bash
+chmod +x run-linux.sh
+./run-linux.sh
+```
+
+### (Tùy chọn) Chạy ứng dụng thủ công bằng Maven:
 Mở Terminal/Command Prompt tại thư mục gốc của dự án và chạy:
 ```bash
-mvn clean compile javafx:run
+mvn clean javafx:run
 ```
 
 ---
