@@ -1,5 +1,12 @@
 package com.adjuge.util;
 
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.PBEKeySpec;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.security.spec.InvalidKeySpecException;
+
 /**
  * Utility class for password hashing and verification.
  *
@@ -43,13 +50,25 @@ public class PasswordUtil {
      * @throws RuntimeException if the JVM is missing required crypto support (should never happen)
      */
     public static String hashPassword(String plainText) {
-        // TODO(@nhan): implement this
-        // Outline:
-        //   1. Generate random salt:  SecureRandom.nextBytes(salt)
-        //   2. Create PBEKeySpec with (password.toCharArray(), salt, ITERATIONS, KEY_LENGTH)
-        //   3. SecretKeyFactory.getInstance(ALGORITHM).generateSecret(spec).getEncoded()
-        //   4. Encode salt + hash to hex, return as "ITERATIONS:saltHex:hashHex"
-        throw new UnsupportedOperationException("hashPassword() not yet implemented");
+        try {
+            // Step 1: Generate a cryptographically-random 16-byte salt
+            byte[] salt = new byte[SALT_LENGTH];
+            new SecureRandom().nextBytes(salt);
+
+            // Step 2: Derive the key using PBKDF2
+            PBEKeySpec spec = new PBEKeySpec(
+                    plainText.toCharArray(), salt, ITERATIONS, KEY_LENGTH);
+            SecretKeyFactory factory = SecretKeyFactory.getInstance(ALGORITHM);
+            byte[] hash = factory.generateSecret(spec).getEncoded();
+            spec.clearPassword(); // Clear sensitive data from memory immediately
+
+            // Step 3: Encode as a self-describing string
+            return ITERATIONS + SEPARATOR + toHex(salt) + SEPARATOR + toHex(hash);
+
+        } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+            // Should never happen on any standard JVM — all required algorithms are mandatory
+            throw new RuntimeException("[PasswordUtil] Crypto error — JVM is missing PBKDF2 support", e);
+        }
     }
 
     /**
@@ -63,13 +82,30 @@ public class PasswordUtil {
      * @return true if the password matches, false otherwise
      */
     public static boolean verifyPassword(String plainText, String storedHash) {
-        // TODO(@nhan): implement this
-        // Outline:
-        //   1. Split storedHash by SEPARATOR → [iterations, saltHex, hashHex]
-        //   2. Decode saltHex back to bytes
-        //   3. Re-hash plainText with the same salt + iterations
-        //   4. Compare with MessageDigest.isEqual() for constant-time comparison
-        throw new UnsupportedOperationException("verifyPassword() not yet implemented");
+        try {
+            // Step 1: Parse the stored hash string
+            String[] parts = storedHash.split(SEPARATOR);
+            if (parts.length != 3) {
+                return false; // Malformed hash — treat as mismatch
+            }
+            int iterations = Integer.parseInt(parts[0]);
+            byte[] salt    = fromHex(parts[1]);
+            byte[] expected = fromHex(parts[2]);
+
+            // Step 2: Re-hash the candidate password with the SAME salt + iterations
+            PBEKeySpec spec = new PBEKeySpec(
+                    plainText.toCharArray(), salt, iterations, expected.length * 8);
+            SecretKeyFactory factory = SecretKeyFactory.getInstance(ALGORITHM);
+            byte[] actual = factory.generateSecret(spec).getEncoded();
+            spec.clearPassword();
+
+            // Step 3: Constant-time comparison — prevents timing attacks
+            // (regular .equals() would return early on first mismatch, leaking info)
+            return MessageDigest.isEqual(expected, actual);
+
+        } catch (NoSuchAlgorithmException | InvalidKeySpecException | NumberFormatException e) {
+            return false;
+        }
     }
 
     // ── Private helpers ──────────────────────────────────────────────────
