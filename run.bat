@@ -5,7 +5,7 @@ echo    ADJUGE - STARTING APPLICATION
 echo ==========================================
 echo.
 
-call mvn javafx:run
+call mvn clean javafx:run
 
 if %ERRORLEVEL% neq 0 (
     echo.
