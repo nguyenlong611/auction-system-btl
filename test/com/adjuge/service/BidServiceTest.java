@@ -27,7 +27,7 @@ class BidServiceTest {
         Item item = ItemFactory.createItem(Category.ELECTRONICS, "Laptop", "A fast laptop", 1000.0, "", "New", "Dell", "XPS", "12");
         
         auction = new Auction("auc_1", item, seller.getId(), seller.getFirstName(), 1000.0, 
-                LocalDateTime.now().minusDays(1), LocalDateTime.now().plusDays(1));
+                LocalDateTime.now().minusDays(1), LocalDateTime.now().plusDays(1), ValidatorType.STANDARD);
     }
 
     @Test
@@ -60,7 +60,7 @@ class BidServiceTest {
     @Test
     void testBidOnExpiredAuction() {
         Auction expiredAuction = new Auction("auc_2", auction.getItem(), seller.getId(), seller.getFirstName(), 1000.0,
-                LocalDateTime.now().minusDays(2), LocalDateTime.now().minusDays(1));
+                LocalDateTime.now().minusDays(2), LocalDateTime.now().minusDays(1), ValidatorType.STANDARD);
         
         Exception exception = assertThrows(AuctionClosedException.class, () -> {
             bidService.placeBid(expiredAuction, bidder, 1500.0);
