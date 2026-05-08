@@ -28,6 +28,7 @@ class BidServiceTest {
         
         auction = new Auction("auc_1", item, seller.getId(), seller.getFirstName(), 1000.0, 
                 LocalDateTime.now().minusDays(1), LocalDateTime.now().plusDays(1), ValidatorType.STANDARD);
+        auction.start();
     }
 
     @Test
@@ -61,11 +62,12 @@ class BidServiceTest {
     void testBidOnExpiredAuction() {
         Auction expiredAuction = new Auction("auc_2", auction.getItem(), seller.getId(), seller.getFirstName(), 1000.0,
                 LocalDateTime.now().minusDays(2), LocalDateTime.now().minusDays(1), ValidatorType.STANDARD);
+        expiredAuction.start();
         
         Exception exception = assertThrows(AuctionClosedException.class, () -> {
             bidService.placeBid(expiredAuction, bidder, 1500.0);
         });
-        assertEquals("This auction has ended.", exception.getMessage());
+        assertEquals("Phiên đấu giá đã kết thúc", exception.getMessage());
         assertEquals(AuctionState.FINISHED, expiredAuction.getState());
     }
 
